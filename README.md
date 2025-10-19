@@ -27,18 +27,11 @@ Progress Tracking
 
 🚦 Getting Started
 Clone this repo:
-
-bash
-git clone https://github.com/YOUR-USERNAME/rizq-connect.git
-cd rizq-connect
+  git clone https://github.com/RizqVenturesHub/RizqVenturesOJT1.git
+  cd rizq-connect
 
 Install dependencies:
   npm install
-
-
-Setup Supabase:
-Create a project at Supabase
-Add the Supabase keys to your .env file (instructions in /docs/SETUP.md)
 
 Run the development server:
   npm start
