@@ -1,31 +1,51 @@
 // components/MentorSection.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MentorCard from './MentorCard';
+import { Mentor } from '../data/types';
+import { mentorsAPI } from '../services/api';
 
 const MentorSection: React.FC = () => {
-  const mentors = [
-    {
-      name: 'Aman Shaikh',
-      role: 'UX Designer',
-      company: 'BBello',
-      description: 'Sharing actionable advice for creative breakthroughs in UI/UX and helping new designers build real-world skills.',
-      image: '/mentors/aman.jpg'
-    },
-    {
-      name: 'Naiem Shaikh',
-      role: 'Creative Director',
-      company: 'Rko',
-      description: 'Guiding professionals through career transitions and supporting them on tech journeys for a confident future.',
-      image: '/mentors/naiem.jpg'
-    },
-    {
-      name: 'Arman',
-      role: 'UI Designer',
-      company: 'BBob',
-      description: 'Empowering members to connect, learn, and grow through collaborative design solutions and practical resources.',
-      image: '/mentors/arman.jpg'
-    }
-  ];
+  const [mentors, setMentors] = useState<Mentor[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchMentors = async () => {
+      try {
+        setLoading(true);
+        const data = await mentorsAPI.getMentors();
+        setMentors(data);
+        setError(null);
+      } catch (err) {
+        setError('Failed to load mentors. Please try again later.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMentors();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20 px-4 bg-gradient-to-br from-white via-primary-light to-white" id="mentors">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-gray-600">Loading mentors...</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="py-20 px-4 bg-gradient-to-br from-white via-primary-light to-white" id="mentors">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-red-600">{error}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="py-20 px-4 bg-gradient-to-br from-white via-primary-light to-white" id="mentors">
@@ -37,9 +57,9 @@ const MentorSection: React.FC = () => {
           See how our funding page ui kit is making an impact.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mentors.map((mentor, index) => (
+          {mentors.map((mentor) => (
             <MentorCard
-              key={index}
+              key={mentor.id}
               name={mentor.name}
               role={mentor.role}
               company={mentor.company}
