@@ -9,6 +9,7 @@ interface NetworkBackgroundProps {
 const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, className = '' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const mousePositionRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,8 +36,8 @@ const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, classNa
       nodes.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5,
+        vx: (Math.random() - 0.5) * 0.3, // Reduced speed
+        vy: (Math.random() - 0.5) * 0.3, // Reduced speed
       });
     }
 
@@ -60,7 +61,7 @@ const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, classNa
         ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
         ctx.fill();
 
-        // Draw connections
+        // Draw connections between nodes
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[j].x - node.x;
           const dy = nodes[j].y - node.y;
@@ -76,14 +77,16 @@ const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, classNa
           }
         }
 
-        // Connect to mouse
+        // Connect to mouse (only draw lines, don't move nodes)
         const mouseDistance = Math.sqrt(
-          Math.pow(mousePosition.x - node.x, 2) + Math.pow(mousePosition.y - node.y, 2)
+          Math.pow(mousePositionRef.current.x - node.x, 2) + 
+          Math.pow(mousePositionRef.current.y - node.y, 2)
         );
+        
         if (mouseDistance < connectionDistance * 1.5) {
           ctx.beginPath();
           ctx.moveTo(node.x, node.y);
-          ctx.lineTo(mousePosition.x, mousePosition.y);
+          ctx.lineTo(mousePositionRef.current.x, mousePositionRef.current.y);
           ctx.strokeStyle = `rgba(57, 181, 74, ${1 - mouseDistance / (connectionDistance * 1.5)})`;
           ctx.lineWidth = 2;
           ctx.stroke();
@@ -98,11 +101,20 @@ const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, classNa
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
-  }, [mousePosition]);
+  }, []); // Remove mousePosition dependency
 
-  // Track mouse position
+  // Track mouse position with smoother updates
   const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
+    const newX = e.clientX;
+    const newY = e.clientY;
+    
+    // Smooth interpolation for mouse position
+    mousePositionRef.current = {
+      x: mousePositionRef.current.x + (newX - mousePositionRef.current.x) * 0.1,
+      y: mousePositionRef.current.y + (newY - mousePositionRef.current.y) * 0.1,
+    };
+    
+    setMousePosition({ x: newX, y: newY });
   };
 
   return (
