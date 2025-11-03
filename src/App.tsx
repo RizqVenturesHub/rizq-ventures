@@ -1,8 +1,14 @@
-import React, { JSX } from 'react';
-import LandingPage from './pages/LandingPage'; 
+// App.tsx
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
 
-function App(): JSX.Element {
-  return <LandingPage />;
+function App() {
+  return (
+    <Router>
+      <LandingPage />
+    </Router>
+  );
 }
 
 export default App;
