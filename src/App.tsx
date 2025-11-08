@@ -1,8 +1,17 @@
-import React, { JSX } from 'react';
-import LandingPage from './pages/LandingPage'; 
+// src/App.tsx
+import LandingPage from './pages/LandingPage';
+import NormalPosts from './pages/NormalPosts';
 
-function App(): JSX.Element {
-  return <LandingPage />;
+function App() {
+  return (
+    <div>
+      {/* <LandingPage />; */}
+      <NormalPosts/>
+    </div>
+ 
+
+  )
+  
 }
 
 export default App;

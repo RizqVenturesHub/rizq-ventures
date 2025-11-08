@@ -1,5 +1,4 @@
-// pages/LandingPage.tsx
-import React from 'react';
+// src/pages/LandingPage.tsx
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import JobSection from '../components/JobSection';
@@ -7,7 +6,7 @@ import MentorSection from '../components/MentorSection';
 import ContactSection from '../components/ContactSection';
 import Footer from '../components/Footer';
 
-const LandingPage: React.FC = () => {
+function LandingPage() {
   return (
     <div className="min-h-screen">
       <Header />
@@ -18,6 +17,9 @@ const LandingPage: React.FC = () => {
       <Footer />
     </div>
   );
-};
+}
 
 export default LandingPage;
+
+// Force module status under isolatedModules if needed:
+export {};
