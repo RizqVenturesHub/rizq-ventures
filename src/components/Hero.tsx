@@ -4,7 +4,7 @@ import NetworkBackground from './NetworkBackground';
 
 const Hero: React.FC = () => {
   return (
-    <NetworkBackground className="min-h-[600px]">
+      <NetworkBackground className="min-h-screen">
       <section className="py-20 px-4" id="home">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">

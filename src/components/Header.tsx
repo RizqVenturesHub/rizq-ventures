@@ -1,5 +1,6 @@
 // components/Header.tsx
 import React, { useEffect, useState } from 'react';
+import rizqVenturesLogo from '../assets/Images/rizqVenturesLogo.png'
 
 const Header: React.FC = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -38,9 +39,11 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-md flex items-center justify-center">
-              <span className="text-white font-bold text-xl">R</span>
-            </div>
+            <img 
+              src={rizqVenturesLogo} 
+              alt="Rizq Ventures Logo" 
+              className="h-8 w-8 object-contain"
+            />
             <span className="text-gray-800 text-xl font-bold">Rizq ventures</span>
           </div>
 

@@ -9,7 +9,7 @@ interface NetworkBackgroundProps {
 const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, className = '' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isMouseInside, setIsMouseInside] = useState(false);
+  const isMouseInsideRef = useRef(false);
   const mousePositionRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, classNa
         }
 
         // Mouse interaction - repulsion effect
-        if (isMouseInside && mousePositionRef.current.x && mousePositionRef.current.y) {
+        if (isMouseInsideRef.current && mousePositionRef.current.x && mousePositionRef.current.y) {
           const dx = mousePositionRef.current.x - this.x;
           const dy = mousePositionRef.current.y - this.y;
           const distance = Math.sqrt(dx * dx + dy * dy);
@@ -80,6 +80,7 @@ const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, classNa
           }
         }
       }
+
 
       draw() {
         if (!ctx) return;
@@ -140,7 +141,7 @@ const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, classNa
     return () => {
       window.removeEventListener('resize', resizeCanvas);
     };
-  }, [isMouseInside]);
+  }, []);
 
   // Track exact mouse position relative to canvas
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -154,14 +155,14 @@ const NetworkBackground: React.FC<NetworkBackgroundProps> = ({ children, classNa
       y: e.clientY - rect.top + scrollTop,
     };
   };
-
   const handleMouseEnter = () => {
-    setIsMouseInside(true);
+    isMouseInsideRef.current = true;
   };
 
   const handleMouseLeave = () => {
-    setIsMouseInside(false);
+    isMouseInsideRef.current = false;
   };
+
 
   return (
     <div

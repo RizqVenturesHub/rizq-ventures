@@ -1,13 +1,16 @@
 // App.tsx
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
+import { AuthProvider } from './context/AuthContext';
+import AppRoutes from './routes/AppRoutes';
 
 function App() {
   return (
-    <Router>
-      <LandingPage />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
   );
 }
 
