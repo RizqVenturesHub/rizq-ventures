@@ -11,7 +11,7 @@ const ContactSection: React.FC = () => {
         <p className="text-gray-600 mb-8">
           Got questions about the Landing Page UI Kit? Our team is here to help. Contact us for quick and friendly support.
         </p>
-        
+
         {/* Contact Info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div className="flex items-center gap-3">
@@ -45,45 +45,43 @@ const ContactSection: React.FC = () => {
         </form>
 
         {/* Social Links */}
-// components/ContactSection.tsx (Social Links section only)
-{/* Social Links */}
-<div className="mt-8">
-  <p className="text-gray-700 font-semibold mb-4">Connect with us</p>
-  <div className="flex gap-4">
-    <a 
-      href="https://instagram.com" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
-    >
-      📷
-    </a>
-    <a 
-      href="https://web.com" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
-    >
-      🌐
-    </a>
-    <a 
-      href="https://linkedin.com" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
-    >
-      💼
-    </a>
-    <a 
-      href="https://twitter.com" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
-    >
-      🐦
-    </a>
-  </div>
-</div>
+        <div className="mt-8">
+          <p className="text-gray-700 font-semibold mb-4">Connect with us</p>
+          <div className="flex gap-4">
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+            >
+              📷
+            </a>
+            <a
+              href="https://web.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+            >
+              🌐
+            </a>
+            <a
+              href="https://linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+            >
+              💼
+            </a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center hover:bg-primary hover:text-white transition-all"
+            >
+              🐦
+            </a>
+          </div>
+        </div>
 
       </div>
     </section>

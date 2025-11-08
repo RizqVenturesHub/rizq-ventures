@@ -1,46 +1,42 @@
 // components/Footer.tsx
 import React from 'react';
+import { Instagram, Linkedin, Github } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-900 text-white py-8 px-4">
+    <footer className="bg-gray-900 text-white py-4 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center">
-          <p className="text-gray-400">
-            © 2023 Anima's Landing Page UI Kit.
+          <p className="text-gray-400 text-sm">
+            © 2025 Rizq Ventures. All rights reserved.
           </p>
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             <a 
-              href="https://youtube.com" 
+              href="https://instagram.com/rizqventures" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors"
+              aria-label="Instagram"
             >
-              📺
+              <Instagram className="h-5 w-5" />
             </a>
             <a 
-              href="https://instagram.com" 
+              href="https://linkedin.com/company/rizqventures" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors"
+              aria-label="LinkedIn"
             >
-              📷
+              <Linkedin className="h-5 w-5" />
             </a>
             <a 
-              href="https://twitter.com" 
+              href="https://github.com/rizqventures" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-gray-400 hover:text-white transition-colors"
+              aria-label="GitHub"
             >
-              🎯
-            </a>
-            <a 
-              href="https://linkedin.com" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              💼
+              <Github className="h-5 w-5" />
             </a>
           </div>
         </div>

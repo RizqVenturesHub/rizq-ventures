@@ -16,13 +16,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isAuthenticated = false }
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div 
-            className="flex items-center space-x-2 cursor-pointer" 
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
             onClick={() => navigate('/')}
           >
-            <img 
-              src={rizqventuresLogo} 
-              alt="Rizq Ventures Logo" 
+            <img
+              src={rizqventuresLogo}
+              alt="Rizq Ventures Logo"
               className="h-8 w-8 object-contain"
             />
             <span className="text-gray-800 text-xl font-bold">Rizq ventures</span>
@@ -36,10 +36,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isAuthenticated = false }
               </a>
             </li>
             <li>
-              <a href="/#posts" className="text-gray-700 hover:text-primary transition-colors font-medium">
+              <a href="/posts" className="text-gray-700 hover:text-primary transition-colors font-medium">
                 Posts
               </a>
             </li>
+
             <li>
               <a href="/#jobs" className="text-gray-700 hover:text-primary transition-colors font-medium">
                 Jobs
@@ -67,7 +68,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isAuthenticated = false }
                 <Bell className="w-5 h-5 text-gray-600" />
                 <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
               </button>
-              <button 
+              <button
                 className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-all"
                 onClick={() => navigate('/profile')}
               >
@@ -76,13 +77,13 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ isAuthenticated = false }
             </div>
           ) : (
             <div className="flex space-x-3">
-              <button 
+              <button
                 onClick={() => navigate('/login')}
                 className="border-2 border-primary text-primary px-6 py-2 rounded-lg font-medium hover:bg-primary-light transition-all"
               >
                 Login
               </button>
-              <button 
+              <button
                 onClick={() => navigate('/signup')}
                 className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-dark transition-all"
               >

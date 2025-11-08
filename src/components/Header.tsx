@@ -41,9 +41,9 @@ const Header: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
-            <img 
-              src={rizqVenturesLogo} 
-              alt="Rizq Ventures Logo" 
+            <img
+              src={rizqVenturesLogo}
+              alt="Rizq Ventures Logo"
               className="h-8 w-8 object-contain"
             />
             <span className="text-gray-800 text-xl font-bold">Rizq ventures</span>
@@ -57,10 +57,11 @@ const Header: React.FC = () => {
               </a>
             </li>
             <li>
-              <a href="#posts" className={navLinkClass('posts')}>
+              <a href="/posts" className={navLinkClass('posts')}>
                 Posts
               </a>
             </li>
+
             <li>
               <a href="#jobs" className={navLinkClass('jobs')}>
                 Jobs
@@ -80,13 +81,13 @@ const Header: React.FC = () => {
 
           {/* Auth Buttons */}
           <div className="flex space-x-3">
-            <button 
+            <button
               onClick={() => navigate('/login')}
               className="border-2 border-primary text-primary px-6 py-2 rounded-lg font-medium hover:bg-primary-light transition-all"
             >
               Login
             </button>
-            <button 
+            <button
               onClick={() => navigate('/signup')}
               className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-dark transition-all"
             >

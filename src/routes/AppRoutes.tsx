@@ -4,8 +4,10 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LandingPage from '../pages/LandingPage';
 import ProfilePage from '../pages/ProfilePage';
+import PostsPage from '../pages/PostsPage';
 import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignUpPage';
+
 const AppRoutes: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -28,6 +30,10 @@ const AppRoutes: React.FC = () => {
       <Route
         path="/profile"
         element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/posts"
+        element={isAuthenticated ? <PostsPage /> : <Navigate to="/" replace />}
       />
 
       {/* Catch all - redirect to home */}
