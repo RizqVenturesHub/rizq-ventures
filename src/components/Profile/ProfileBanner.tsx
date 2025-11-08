@@ -1,5 +1,6 @@
 // components/ProfileBanner.tsx
 import React from 'react';
+import defaultProfile from '../../assets/Images/profile.png';
 
 interface ProfileBannerProps {
   bannerImage?: string;
@@ -39,16 +40,19 @@ const ProfileBanner: React.FC<ProfileBannerProps> = ({
       </div>
 
       {/* Profile Info */}
-      <div className="px-8 pb-6">
-        <div className="flex items-end -mt-16 mb-4">
-          <div className="w-32 h-32 rounded-full border-4 border-white overflow-hidden bg-gray-200">
-            {profileImage ? (
-              <img src={profileImage} alt={name} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-orange-300 to-orange-400 flex items-center justify-center">
-                <span className="text-white text-4xl font-bold">{name.charAt(0)}</span>
-              </div>
-            )}
+      <div className="px-8 pt-6 pb-6">
+        {/* Profile Image - positioned just below banner */}
+        <div className="flex items-center mb-4">
+          <div className="w-32 h-32 rounded-full border-4 border-white shadow-lg overflow-hidden bg-gray-200">
+            <img 
+              src={profileImage || defaultProfile} 
+              alt={name} 
+              className="w-full h-full object-cover" 
+              onError={(e) => {
+                // Fallback if image fails to load
+                e.currentTarget.src = defaultProfile;
+              }}
+            />
           </div>
         </div>
 

@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
-    localStorage.removeItem('token'); // Remove token if you're storing it
+    localStorage.removeItem('token');
   };
 
   const updateUser = (userData: Partial<User>) => {
@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const value: AuthContextType = {
     user,
-    isAuthenticated: !!user,
+    isAuthenticated: true, // <-- HARDCODED TO TRUE FOR TESTING
     isLoading,
     login,
     logout,

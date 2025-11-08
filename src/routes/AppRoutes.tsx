@@ -5,8 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import LandingPage from '../pages/LandingPage';
 import ProfilePage from '../pages/ProfilePage';
 import LoginPage from '../pages/LoginPage';
-// import SignupPage from '../pages/SignupPage';
-
+import SignupPage from '../pages/SignUpPage';
 const AppRoutes: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -21,20 +20,14 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       {/* Public routes */}
-      <Route path="/" element={<ProfilePage />} />
-      <Route 
-        path="/login" 
-        element={isAuthenticated ? <Navigate to="/profile" replace /> : <LoginPage />} 
-      />
-      {/* <Route 
-        path="/signup" 
-        element={isAuthenticated ? <Navigate to="/profile" replace /> : <SignupPage />} 
-      /> */}
-
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      
       {/* Protected routes */}
       <Route
         path="/profile"
-        element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />}
+        element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" replace />}
       />
 
       {/* Catch all - redirect to home */}

@@ -18,7 +18,6 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({ onTabChange }) => {
     { id: 'education', label: 'Education' },
     { id: 'skills', label: 'Skills' },
     { id: 'projects', label: 'Projects' },
-    { id: 'connections', label: 'Connections' },
   ];
 
   const handleTabClick = (tabId: string) => {

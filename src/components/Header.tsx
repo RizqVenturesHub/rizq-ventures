@@ -1,9 +1,11 @@
 // components/Header.tsx
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import rizqVenturesLogo from '../assets/Images/rizqVenturesLogo.png'
 
 const Header: React.FC = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Detect active section on scroll
@@ -38,7 +40,7 @@ const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 cursor-pointer" onClick={() => navigate('/')}>
             <img 
               src={rizqVenturesLogo} 
               alt="Rizq Ventures Logo" 
@@ -78,10 +80,16 @@ const Header: React.FC = () => {
 
           {/* Auth Buttons */}
           <div className="flex space-x-3">
-            <button className="border-2 border-primary text-primary px-6 py-2 rounded-lg font-medium hover:bg-primary-light transition-all">
+            <button 
+              onClick={() => navigate('/login')}
+              className="border-2 border-primary text-primary px-6 py-2 rounded-lg font-medium hover:bg-primary-light transition-all"
+            >
               Login
             </button>
-            <button className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-dark transition-all">
+            <button 
+              onClick={() => navigate('/signup')}
+              className="bg-primary text-white px-6 py-2 rounded-lg font-medium hover:bg-primary-dark transition-all"
+            >
               Sign Up
             </button>
           </div>
