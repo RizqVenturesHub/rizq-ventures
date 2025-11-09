@@ -6,9 +6,15 @@ interface PasswordInputProps {
   name: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  showHelper?: boolean;
 }
 
-export default function PasswordInput({ name, value, onChange }: PasswordInputProps) {
+export default function PasswordInput({ 
+  name, 
+  value, 
+  onChange,
+  showHelper = true 
+}: PasswordInputProps) {
   const { showPassword, togglePassword } = usePasswordToggle();
 
   return (
@@ -34,9 +40,11 @@ export default function PasswordInput({ name, value, onChange }: PasswordInputPr
           {showPassword ? "Hide" : "Show"}
         </button>
       </div>
-      <p className="text-xs text-gray-500 mt-2">
-        Use 8 or more characters with a mix of letters, numbers & symbols
-      </p>
+      {showHelper && (
+        <p className="text-xs text-gray-500 mt-2">
+          Use 8 or more characters with a mix of letters, numbers & symbols
+        </p>
+      )}
     </div>
   );
 }
