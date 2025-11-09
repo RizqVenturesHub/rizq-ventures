@@ -1,4 +1,4 @@
-// components/JobSection.tsx
+// components/JobSection.tsx - Updated
 import React, { useEffect, useState } from 'react';
 import JobCard from './JobCard';
 import { Job } from '../data/types';
@@ -29,7 +29,7 @@ const JobSection: React.FC = () => {
 
   if (loading) {
     return (
-      <section className="py-20 px-4 bg-gradient-to-br from-primary-light via-white to-primary-light" id="jobs">
+      <section className="py-20 px-4 bg-gray-50" id="jobs">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-gray-600">Loading jobs...</p>
         </div>
@@ -39,7 +39,7 @@ const JobSection: React.FC = () => {
 
   if (error) {
     return (
-      <section className="py-20 px-4 bg-gradient-to-br from-primary-light via-white to-primary-light" id="jobs">
+      <section className="py-20 px-4 bg-gray-50" id="jobs">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-red-600">{error}</p>
         </div>
@@ -48,19 +48,29 @@ const JobSection: React.FC = () => {
   }
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-br from-primary-light via-white to-primary-light" id="jobs">
+    <section className="py-20 px-4 bg-gray-50" id="jobs">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-secondary">
-          Job posts
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-secondary">
+            Latest Job Openings
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Discover exciting career opportunities from top companies. Find your next role today.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {jobs.map((job) => (
             <JobCard
               key={job.id}
               title={job.title}
+              company={job.company}
+              location={job.location}
+              jobType={job.jobType}
+              experienceLevel={job.experienceLevel}
               description={job.description}
-              icon={job.icon}
-              iconBg={job.iconBg}
+              companyLogo={job.companyLogo}
+              postedDate={job.postedDate}
+              salary={job.salary}
             />
           ))}
         </div>
