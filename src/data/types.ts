@@ -1,18 +1,19 @@
-// data/types.ts
+// data/types.ts - Updated Job interface
 export interface Job {
-  id: string | number;
+  id: number;
   title: string;
+  company: string;
+  location: string;
+  jobType: string;
+  experienceLevel: string;
   description: string;
-  icon: string;
-  iconBg: string;
-  company?: string;
-  location?: string;
-  jobType?: string;
-  experienceLevel?: string;
+  companyLogo?: string;
+  postedDate?: string;
+  salary?: string;
 }
 
 export interface Mentor {
-  id: string | number;
+  id: number;
   name: string;
   role: string;
   company: string;
