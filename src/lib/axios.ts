@@ -1,0 +1,24 @@
+// import axios from "axios";
+
+// export const API = axios.create({
+//   baseURL: process.env.REACT_APP_API_BASE_URL,
+// });
+
+// API.interceptors.request.use((req) => {
+//   const token = localStorage.getItem("token");
+//   if (token) req.headers.Authorization = `Bearer ${token}`;
+//   return req;
+// });
+
+import axios from "axios";
+
+export const API = axios.create({
+  baseURL: process.env.REACT_APP_API_BASE_URL,
+});
+
+// ✅ attach token automatically
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
+  if (token) req.headers.Authorization = `Bearer ${token}`;
+  return req;
+});
