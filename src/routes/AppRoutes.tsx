@@ -7,6 +7,7 @@ import ProfilePage from '../pages/ProfilePage';
 import PostsPage from '../pages/PostsPage';
 import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignUpPage';
+import MessagingPage from '../pages/MessagingPage';
 
 const AppRoutes: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -14,7 +15,10 @@ const AppRoutes: React.FC = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-600">Loading...</p>
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-600">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -29,11 +33,15 @@ const AppRoutes: React.FC = () => {
       {/* Protected routes */}
       <Route
         path="/profile"
-        element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" replace />}
+        element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />}
       />
       <Route
         path="/posts"
-        element={isAuthenticated ? <PostsPage /> : <Navigate to="/" replace />}
+        element={isAuthenticated ? <PostsPage /> : <Navigate to="/login" replace />}
+      />
+      <Route
+        path="/messages"
+        element={isAuthenticated ? <MessagingPage /> : <Navigate to="/login" replace />}
       />
 
       {/* Catch all - redirect to home */}
