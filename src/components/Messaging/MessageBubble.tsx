@@ -12,19 +12,19 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
       className={`flex ${message.isCurrentUser ? 'justify-end' : 'justify-start'}`}
     >
       <div
-        className={`max-w-xl ${
+        className={`max-w-xs lg:max-w-xl ${
           message.isCurrentUser ? 'items-end' : 'items-start'
         } flex flex-col gap-1`}
       >
         {message.type === 'text' && (
           <div
-            className={`px-4 py-2.5 rounded-2xl ${
+            className={`px-3 lg:px-4 py-2 lg:py-2.5 rounded-2xl ${
               message.isCurrentUser
                 ? 'bg-gray-100 text-gray-900 rounded-br-md'
                 : 'bg-gray-100 text-gray-900 rounded-bl-md'
             }`}
           >
-            <p className="text-sm leading-relaxed">{message.content}</p>
+            <p className="text-xs lg:text-sm leading-relaxed">{message.content}</p>
           </div>
         )}
 
@@ -33,7 +33,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message }) => {
             <img
               src={message.imageUrl}
               alt="Shared content"
-              className="rounded-xl max-w-md w-full h-auto shadow-md"
+              className="rounded-xl max-w-[250px] lg:max-w-md w-full h-auto shadow-md"
             />
             {message.linkUrl && (
               <a

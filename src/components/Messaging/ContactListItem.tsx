@@ -16,7 +16,7 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`px-6 py-3.5 flex items-start gap-3 cursor-pointer transition-all hover:bg-white/60 ${
+      className={`px-4 lg:px-6 py-2.5 lg:py-3.5 flex items-start gap-2.5 lg:gap-3 cursor-pointer transition-all hover:bg-white/60 ${
         isSelected ? 'bg-white/80 border-l-4 border-primary' : ''
       }`}
     >
@@ -24,16 +24,16 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
         <img
           src={contact.avatar}
           alt={contact.name}
-          className="w-12 h-12 rounded-full object-cover"
+          className="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-cover"
         />
         {contact.isOnline && (
-          <div className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-primary border-2 border-white rounded-full" />
+          <div className="absolute bottom-0 right-0 w-3 h-3 lg:w-3.5 lg:h-3.5 bg-primary border-2 border-white rounded-full" />
         )}
       </div>
 
       <div className="flex-1 min-w-0">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between mb-0.5 lg:mb-1">
+          <div className="flex items-center gap-1 lg:gap-1.5">
             {contact.isOnline && (
               <div className="w-1.5 h-1.5 bg-primary rounded-full" />
             )}
@@ -48,16 +48,16 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
 
         <div className="flex items-center justify-between">
           <p
-            className={`text-sm truncate ${
+            className={`text-xs lg:text-sm truncate ${
               contact.isTyping ? 'text-primary' : 'text-gray-600'
             }`}
           >
             {contact.lastMessage}
           </p>
-          <div className="flex items-center gap-1.5 flex-shrink-0 ml-2">
+          <div className="flex items-center gap-1 lg:gap-1.5 flex-shrink-0 ml-2">
             {contact.hasCheckmark && (
               <svg
-                className="w-4 h-4 text-primary"
+                className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-primary"
                 viewBox="0 0 16 16"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ const ContactListItem: React.FC<ContactListItemProps> = ({
               </svg>
             )}
             {contact.unreadCount && (
-              <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+              <div className="w-4 h-4 lg:w-5 lg:h-5 bg-primary rounded-full flex items-center justify-center">
                 <span className="text-white text-xs font-semibold">
                   {contact.unreadCount}
                 </span>

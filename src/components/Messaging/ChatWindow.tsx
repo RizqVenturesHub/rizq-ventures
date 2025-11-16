@@ -2,10 +2,10 @@
 import React, { useRef, useEffect } from 'react';
 import { Contact, Message } from '../../types/messaging';
 import { useMessageInput } from '../../hooks/messaging/useMessageInput'; 
-import ChatHeader from './ChatHeader'; 
-import MessageBubble from './MessageBubble'; 
-import MessageInput from './MessageInput'; 
-import EmptyChat from './EmptyChat'; 
+import ChatHeader from './ChatHeader';
+import MessageBubble from './MessageBubble';
+import MessageInput from './MessageInput';
+import EmptyChat from './EmptyChat';
 
 interface ChatWindowProps {
   selectedContact: Contact | null;
@@ -33,15 +33,17 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   }
 
   return (
-    <div className="flex-1 bg-white flex flex-col">
+    <div className="flex-1 bg-white flex flex-col h-full overflow-hidden">
+      {/* Header - Fixed */}
       <ChatHeader contact={selectedContact} />
 
-      <div className="flex-1 overflow-y-auto px-6 py-4 bg-white">
-        <div className="max-w-4xl mx-auto space-y-4">
+      {/* Messages - Scrollable */}
+      <div className="flex-1 overflow-y-auto px-4 lg:px-6 py-3 lg:py-4 bg-white">
+        <div className="max-w-3xl lg:max-w-4xl mx-auto space-y-3 lg:space-y-4">
           {loading && messages.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">Loading messages...</div>
+            <div className="text-center text-gray-500 py-8 text-sm">Loading messages...</div>
           ) : messages.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">No messages yet</div>
+            <div className="text-center text-gray-500 py-8 text-sm">No messages yet</div>
           ) : (
             messages.map((message) => (
               <MessageBubble key={message.id} message={message} />
@@ -51,6 +53,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
         </div>
       </div>
 
+      {/* Input - Fixed */}
       <MessageInput
         value={messageInput}
         onChange={setMessageInput}
