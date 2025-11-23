@@ -1,4 +1,4 @@
-// components/Header.tsx (Enhanced Version)
+// components/Header.tsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MessageCircle, User, Plus, Bell } from 'lucide-react';
@@ -51,6 +51,11 @@ const Header: React.FC = () => {
     );
   };
 
+  // CHANGED: Always navigate to /mentors page
+  const handleMentorsClick = () => {
+    navigate('/mentors');
+  };
+
   return (
     <nav className="bg-white sticky top-0 z-50 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,9 +93,12 @@ const Header: React.FC = () => {
               </a>
             </li>
             <li>
-              <a href="/#mentors" className={navLinkClass('mentors')}>
+              <button
+                onClick={handleMentorsClick}
+                className={`${navLinkClass('mentors')} bg-transparent border-none cursor-pointer p-0`}
+              >
                 Mentors
-              </a>
+              </button>
             </li>
           </ul>
 
