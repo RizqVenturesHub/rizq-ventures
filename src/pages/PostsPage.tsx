@@ -1,7 +1,7 @@
 // pages/PostsPage.tsx
 import React, { useEffect, useState } from "react";
 import { Search } from "lucide-react";
-import ProfileHeader from "../components/Profile/ProfileHeader";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 const PAGE_SIZE = 10;
@@ -157,7 +157,7 @@ export default function PostsPage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      <ProfileHeader isAuthenticated={true} />
+      <Header/>
       
       <main className="mx-auto max-w-6xl px-6 pb-12">
         <SearchBar

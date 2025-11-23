@@ -1,6 +1,6 @@
 // pages/ProfilePage.tsx
 import React, { useState } from 'react';
-import ProfileHeader from '../components/Profile/ProfileHeader';
+import Header from '../components/Header';
 import ProfileBanner from '../components/Profile/ProfileBanner';
 import ProfileTabs from '../components/Profile/ProfileTabs';
 import ExperienceSection from '../components/Profile/ExperienceSection';
@@ -46,7 +46,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <ProfileHeader isAuthenticated={true} />
+      <Header />
       
       <main className="max-w-5xl mx-auto px-4 py-8">
         <ProfileBanner
