@@ -8,6 +8,7 @@ import PostsPage from '../pages/PostsPage';
 import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignUpPage';
 import MessagingPage from '../pages/MessagingPage';
+import MentorPage from '../pages/MentorPage';
 
 const AppRoutes: React.FC = () => {
   const { isAuthenticated, isLoading } = useAuth();
@@ -29,6 +30,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/mentors" element={<MentorPage />} /> {/* Public - anyone can view */}
       
       {/* Protected routes */}
       <Route
