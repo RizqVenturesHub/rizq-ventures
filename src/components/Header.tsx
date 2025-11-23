@@ -108,11 +108,11 @@ const Header: React.FC = () => {
                 Jobs
               </button>
             </li>
-            <li>
+            {/* <li>
               <a href="/#about" className={navLinkClass('about')}>
                 About Us
               </a>
-            </li>
+            </li> */}
             <li>
               <button
                 onClick={handleMentorsClick}
