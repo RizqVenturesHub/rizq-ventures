@@ -126,28 +126,56 @@ const NetworkBackground = () => {
   }, []);
 
   const options = {
-    fullScreen: { enable: true, zIndex: -1 },
-    background: { color: { value: "#ffffff" } },
+    fullScreen: {
+      // attach canvas to <body>, full viewport size
+      enable: true,
+      zIndex: -1, // keep it behind page content
+    },
+    background: {
+      color: {
+        value: "#ffffff", // base white like your design
+      },
+    },
     fpsLimit: 60,
     interactivity: {
       detectsOn: "canvas",
-      events: { onHover: { enable: true, mode: "repulse" }, resize: true },
-      modes: { repulse: { distance: 100, duration: 0.4 } },
+      events: {
+        onHover: {
+          enable: true,
+          mode: "repulse",
+        },
+        resize: true,
+      },
+      modes: {
+        repulse: {
+          distance: 100,
+          duration: 0.4,
+        },
+      },
     },
     particles: {
       color: { value: "#34d399" },
-      links: { color: "#34d399", distance: 150, enable: true, opacity: 0.2, width: 1 },
+      links: {
+        color: "#34d399",
+        distance: 150,
+        enable: true,
+        opacity: 0.35,
+        width: 1,
+      },
       collisions: { enable: false },
       move: {
         direction: "none",
         enable: true,
         outModes: { default: "bounce" },
         random: true,
-        speed: 1.5,
+        speed: 1.3,
         straight: false,
       },
-      number: { density: { enable: true, area: 800 }, value: 50 },
-      opacity: { value: 0.3 },
+      number: {
+        density: { enable: true, area: 800 },
+        value: 60,
+      },
+      opacity: { value: 0.4 },
       shape: { type: "circle" },
       size: { value: { min: 1, max: 3 } },
     },
@@ -155,7 +183,7 @@ const NetworkBackground = () => {
   };
 
   return <Particles id="tsparticles" init={particlesInit} options={options} />;
-};
+}
 
 // ----------------- MAIN PAGE -----------------
 export default function MentorPage() {
@@ -174,7 +202,7 @@ export default function MentorPage() {
     });
 
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen bg-white-transparent overflow-hidden">
       <NetworkBackground />
       <Navbar />
 
