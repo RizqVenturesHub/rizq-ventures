@@ -1,28 +1,51 @@
-// src/pages/MentorPage.jsx
-import React, { useState, useCallback } from "react";
-import Particles from "react-tsparticles";
-import { loadFull } from "tsparticles";
+// pages/MentorPage.tsx
+import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
+import NetworkBackground from '../components/NetworkBackground';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import { useAuth } from '../context/AuthContext';
+
+// ----------------- INTERFACES -----------------
+interface HeroStory {
+  image: string;
+  title: string;
+  desc: string;
+}
+
+interface MentorCategory {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+interface MentorProfile {
+  name: string;
+  role: string;
+  image: string;
+}
 
 // ----------------- DATA -----------------
-const heroStories = [
+const heroStories: HeroStory[] = [
   {
     image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&q=80",
-    title: "From Intern to CEO: Sarah’s Journey",
-    desc: "Sarah Chen’s story of growth and leadership, guided by mentorship.",
+    title: "From Intern to CEO: Sarah's Journey",
+    desc: "Sarah Chen's story of growth and leadership, guided by mentorship.",
   },
   {
     image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&q=80",
-    title: "David’s Mentorship: Building a Tech Startup",
-    desc: "David Lee’s experience in creating a successful tech company with mentor support.",
+    title: "David's Mentorship: Building a Tech Startup",
+    desc: "David Lee's experience in creating a successful tech company with mentor support.",
   },
   {
     image: "https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?w=600&q=80",
-    title: "Maria’s Impact: Transforming a Marketing Strategy",
-    desc: "Maria Rodriguez’s success in revitalizing a marketing approach with guidance.",
+    title: "Maria's Impact: Transforming a Marketing Strategy",
+    desc: "Maria Rodriguez's success in revitalizing a marketing approach with guidance.",
   },
 ];
 
-const mentorCategories = [
+const mentorCategories: MentorCategory[] = [
   {
     icon: "💼",
     title: "Business Strategy",
@@ -50,7 +73,7 @@ const mentorCategories = [
   },
 ];
 
-const expertiseTabs = [
+const expertiseTabs: string[] = [
   "Software Engineering",
   "Product Management",
   "Data Science",
@@ -58,8 +81,8 @@ const expertiseTabs = [
   "Design",
 ];
 
-const mentorProfiles = [
-  { name: "Fatima Khan", role: "Software Engineering", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=300&q=80" },
+const mentorProfiles: MentorProfile[] = [
+  { name: "Fahim Khan", role: "Software Engineering", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=300&q=80" },
   { name: "Benjamin Hayes", role: "Product Management", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&q=80" },
   { name: "Aisha Rahman", role: "Data Science", image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&q=80" },
   { name: "Samuel Reed", role: "Marketing", image: "https://images.unsplash.com/photo-1552053566-35c9e1e96c79?w=300&q=80" },
@@ -69,7 +92,7 @@ const mentorProfiles = [
   { name: "Grayson Cole", role: "Data Science", image: "https://images.unsplash.com/photo-1552053566-35c9e1e96c79?w=300&q=80" },
   { name: "Aaliyah Siddiqui", role: "Marketing", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=300&q=80" },
   { name: "Jackson Reed", role: "Design", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=300&q=80" },
-  { name: "Hafsa Ahmed", role: "Software Engineering", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=300&q=80" },
+  { name: "Hafiz Ahmed", role: "Software Engineering", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=300&q=80" },
   { name: "Carter Hayes", role: "Product Management", image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&q=80" },
   { name: "Mariam Hassan", role: "Data Science", image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&q=80" },
   { name: "Henry Cole", role: "Marketing", image: "https://images.unsplash.com/photo-1552053566-35c9e1e96c79?w=300&q=80" },
@@ -186,10 +209,12 @@ const NetworkBackground = () => {
 }
 
 // ----------------- MAIN PAGE -----------------
-export default function MentorPage() {
-  const [searchTop, setSearchTop] = useState("");
-  const [searchMentors, setSearchMentors] = useState("");
-  const [activeExpertise, setActiveExpertise] = useState("Software Engineering");
+const MentorPage: React.FC = () => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const [searchTop, setSearchTop] = useState<string>("");
+  const [searchMentors, setSearchMentors] = useState<string>("");
+  const [activeExpertise, setActiveExpertise] = useState<string>("Software Engineering");
 
   const filteredProfiles = mentorProfiles
     .slice(0, 15)
@@ -200,6 +225,20 @@ export default function MentorPage() {
       const matchesExpertise = activeExpertise ? m.role === activeExpertise : true;
       return matchesSearch && matchesExpertise;
     });
+
+  // Handle actions that require authentication
+  const handleAuthAction = (action: () => void, actionName: string) => {
+    if (isAuthenticated) {
+      action();
+    } else {
+      toast.error('Please login to ' + actionName, {
+        duration: 3000,
+        position: 'top-center',
+        icon: '🔒',
+      });
+      setTimeout(() => navigate('/login'), 1500);
+    }
+  };
 
   return (
     <div className="relative min-h-screen bg-white-transparent overflow-hidden">
@@ -217,7 +256,15 @@ export default function MentorPage() {
               Experts
             </span>
           </h1>
-          <button className="mt-2 sm:mt-4 bg-emerald-500 text-white font-bold py-2 px-8 rounded-xl text-lg hover:bg-emerald-600">
+          <button 
+            onClick={() => handleAuthAction(() => {
+              const mentorsSection = document.getElementById('mentors-grid');
+              if (mentorsSection) {
+                mentorsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }, 'find a mentor')}
+            className="mt-2 sm:mt-4 bg-emerald-500 text-white font-bold py-2 px-8 rounded-xl text-lg hover:bg-emerald-600"
+          >
             FIND A MENTOR
           </button>
 
@@ -226,16 +273,16 @@ export default function MentorPage() {
             <input
               type="text"
               placeholder="Search"
-              className="flex-1 rounded-full bg-emerald-100 px-6 py-2 font-semibold outline-none text-sm border-none"
+              className="flex-1 rounded-full bg-white/70 backdrop-blur-sm px-6 py-2 font-semibold outline-none text-sm border border-gray-200"
               value={searchTop}
               onChange={(e) => setSearchTop(e.target.value)}
             />
             <input
               type="text"
               placeholder="Category"
-              className="rounded-full bg-emerald-100 px-6 py-2 font-semibold outline-none text-sm border-none sm:max-w-xs"
+              className="rounded-full bg-white/70 backdrop-blur-sm px-6 py-2 font-semibold outline-none text-sm border border-gray-200 sm:max-w-xs"
             />
-            <button className="rounded-full font-bold px-10 py-2 bg-emerald-200 hover:bg-emerald-300 text-sm">
+            <button className="rounded-full font-bold px-10 py-2 bg-emerald-500 text-white hover:bg-emerald-600 text-sm">
               Go
             </button>
           </div>
@@ -244,12 +291,12 @@ export default function MentorPage() {
         {/* ---------- FIND A MENTOR + STORIES ---------- */}
         <section className="max-w-6xl mx-auto px-4 mt-10 xl:px-0">
           <h2 className="font-bold text-2xl">Find a Mentor</h2>
-          <p className="mb-4 mt-1 text-gray-500 text-sm max-w-xl">
+          <p className="mb-4 mt-1 text-gray-700 text-sm max-w-xl">
             Connect with experienced professionals who can guide you towards your goals.
           </p>
 
-          {/* Inner green search bar */}
-          <div className="flex items-center bg-emerald-50 rounded-xl px-4 py-2 gap-3 max-w-xl mb-6">
+          {/* Inner search bar */}
+          <div className="flex items-center bg-white/70 backdrop-blur-sm rounded-xl px-4 py-2 gap-3 max-w-xl mb-6 border border-gray-200">
             <span className="text-gray-400 text-lg">🔍</span>
             <input
               type="text"
@@ -272,7 +319,7 @@ export default function MentorPage() {
                 />
                 <div className="p-4">
                   <h3 className="font-semibold text-sm text-gray-900">{m.title}</h3>
-                  <p className="mt-1 text-xs text-gray-500 leading-relaxed">{m.desc}</p>
+                  <p className="mt-1 text-xs text-gray-600 leading-relaxed">{m.desc}</p>
                 </div>
               </article>
             ))}
@@ -286,11 +333,14 @@ export default function MentorPage() {
             {mentorCategories.map((c) => (
               <div
                 key={c.title}
-                className="bg-gray-50 border border-gray-100 rounded-xl px-4 py-6 text-center flex flex-col items-center shadow-xs"
+                onClick={() => handleAuthAction(() => {
+                  toast.success(`Showing ${c.title} mentors`);
+                }, `view ${c.title} mentors`)}
+                className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl px-4 py-6 text-center flex flex-col items-center shadow-sm hover:shadow-md transition cursor-pointer"
               >
                 <span className="text-2xl mb-2">{c.icon}</span>
                 <span className="font-semibold text-sm text-gray-900">{c.title}</span>
-                <span className="mt-1 text-[11px] text-gray-500">{c.desc}</span>
+                <span className="mt-1 text-[11px] text-gray-600">{c.desc}</span>
               </div>
             ))}
           </div>
@@ -299,15 +349,20 @@ export default function MentorPage() {
         {/* ---------- UPCOMING EVENTS ---------- */}
         <section className="max-w-6xl mx-auto px-4 mt-12 xl:px-0">
           <h2 className="text-lg font-bold mb-2">Upcoming Mentorship Events</h2>
-          <div className="bg-emerald-50 rounded-xl p-5 max-w-2xl">
-            <p className="text-xs text-gray-500 mb-1">Webinar</p>
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 max-w-2xl border border-gray-200">
+            <p className="text-xs text-gray-600 mb-1">Webinar</p>
             <p className="text-sm font-semibold text-gray-900">
               Effective Communication Strategies
             </p>
-            <p className="mt-1 text-xs text-gray-600 leading-relaxed">
+            <p className="mt-1 text-xs text-gray-700 leading-relaxed">
               Join us for a webinar on improving your communication skills with industry experts.
             </p>
-            <button className="mt-3 px-4 py-1.5 rounded-full bg-white text-gray-800 text-xs font-semibold border border-gray-200 hover:bg-gray-100">
+            <button 
+              onClick={() => handleAuthAction(() => {
+                toast.success('Registration successful!');
+              }, 'register for events')}
+              className="mt-3 px-4 py-1.5 rounded-full bg-white text-gray-800 text-xs font-semibold border border-gray-300 hover:bg-gray-50"
+            >
               Register Now
             </button>
           </div>
@@ -317,37 +372,47 @@ export default function MentorPage() {
         <section className="max-w-6xl mx-auto px-4 mt-12 mb-16 xl:px-0 space-y-10">
           <div>
             <h2 className="text-lg font-bold mb-1">Community Forum</h2>
-            <p className="text-xs text-gray-600 max-w-2xl">
+            <p className="text-xs text-gray-700 max-w-2xl">
               Engage with mentors and peers in our community forum. Ask questions, share insights, and
               connect with others.
             </p>
-            <button className="mt-3 px-4 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600">
+            <button 
+              onClick={() => handleAuthAction(() => {
+                navigate('/forum');
+              }, 'access the forum')}
+              className="mt-3 px-4 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600"
+            >
               Go to Forum
             </button>
           </div>
 
           <div>
             <h2 className="text-lg font-bold mb-1">Why Become a Mentor?</h2>
-            <p className="text-xs text-gray-600 max-w-3xl">
+            <p className="text-xs text-gray-700 max-w-3xl">
               Share your expertise, give back to the community, and help shape the next generation of
               professionals. Become a mentor and make a difference.
             </p>
-            <button className="mt-3 px-4 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600">
+            <button 
+              onClick={() => handleAuthAction(() => {
+                navigate('/become-mentor');
+              }, 'become a mentor')}
+              className="mt-3 px-4 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-semibold hover:bg-emerald-600"
+            >
               Become a Mentor
             </button>
           </div>
         </section>
 
-        {/* ---------- MENTORS GRID (SECOND IMAGE TOP) ---------- */}
-        <section className="mt-10 mb-16">
-          <div className="w-full flex justify-center">
-            <div className="w-full max-w-5xl bg-white/95 rounded-2xl shadow-lg border border-gray-100 px-10 pt-6 pb-8">
+        {/* ---------- MENTORS GRID ---------- */}
+        <section id="mentors-grid" className="mt-10 mb-16">
+          <div className="w-full flex justify-center px-4">
+            <div className="w-full max-w-5xl bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 px-6 sm:px-10 pt-6 pb-8">
               {/* Search bar */}
               <div className="w-full mb-4">
                 <input
                   type="text"
                   placeholder="Search mentors by name or expertise"
-                  className="w-full rounded-full border border-gray-200 bg-white px-5 py-3 text-sm outline-none focus:ring-2 focus:ring-emerald-200"
+                  className="w-full rounded-full border border-gray-300 bg-white px-5 py-3 text-sm outline-none focus:ring-2 focus:ring-emerald-300"
                   value={searchMentors}
                   onChange={(e) => setSearchMentors(e.target.value)}
                 />
@@ -359,10 +424,10 @@ export default function MentorPage() {
                   <button
                     key={tab}
                     onClick={() => setActiveExpertise(tab)}
-                    className={`px-4 py-1.5 rounded-full text-xs font-medium border ${
+                    className={`px-4 py-1.5 rounded-full text-xs font-medium border transition ${
                       activeExpertise === tab
                         ? "bg-emerald-500 text-white border-emerald-500"
-                        : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
+                        : "bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100"
                     }`}
                   >
                     {tab}
@@ -370,33 +435,46 @@ export default function MentorPage() {
                 ))}
               </div>
 
-              {/* Avatars grid: 3 rows x 5 columns */}
-              <div className="grid grid-cols-5 justify-items-center gap-x-10 gap-y-10 mb-6">
+              {/* Avatars grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-items-center gap-x-6 gap-y-8 mb-6">
                 {filteredProfiles.map((m) => (
                   <div
                     key={m.name}
-                    className="flex flex-col items-center text-center"
+                    onClick={() => handleAuthAction(() => {
+                      toast.success(`Viewing ${m.name}'s profile`);
+                    }, 'view mentor profiles')}
+                    className="flex flex-col items-center text-center cursor-pointer hover:opacity-80 transition"
                   >
-                    <div className="w-24 h-24 rounded-full overflow-hidden mb-2 shadow-md">
+                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden mb-2 shadow-md">
                       <img
                         src={m.image}
                         alt={m.name}
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="text-sm font-semibold text-gray-800">
+                    <div className="text-xs sm:text-sm font-semibold text-gray-800">
                       {m.name}
                     </div>
-                    <div className="text-[11px] text-gray-500">{m.role}</div>
+                    <div className="text-[10px] sm:text-[11px] text-gray-600">{m.role}</div>
                   </div>
                 ))}
               </div>
 
               <div className="flex flex-col sm:flex-row justify-center gap-4">
-                <button className="px-6 py-2 rounded-full bg-emerald-500 text-white text-sm font-semibold hover:bg-emerald-600">
+                <button 
+                  onClick={() => handleAuthAction(() => {
+                    navigate('/messages');
+                  }, 'request mentorship')}
+                  className="px-6 py-2 rounded-full bg-emerald-500 text-white text-sm font-semibold hover:bg-emerald-600"
+                >
                   Request Mentorship
                 </button>
-                <button className="px-6 py-2 rounded-full bg-gray-100 text-gray-800 text-sm font-semibold border border-gray-200 hover:bg-gray-200">
+                <button 
+                  onClick={() => handleAuthAction(() => {
+                    toast.success('Opening mentor profile...');
+                  }, 'view profiles')}
+                  className="px-6 py-2 rounded-full bg-gray-100 text-gray-800 text-sm font-semibold border border-gray-300 hover:bg-gray-200"
+                >
                   View Profile
                 </button>
               </div>
@@ -404,9 +482,9 @@ export default function MentorPage() {
           </div>
         </section>
 
-        {/* ---------- FOR MENTORSHIP CARD (SECOND IMAGE BOTTOM) ---------- */}
+        {/* ---------- FOR MENTORSHIP CARD ---------- */}
         <section className="max-w-6xl mx-auto px-4 mb-24 xl:px-0">
-          <div className="bg-white/95 rounded-2xl shadow-lg border border-gray-100 px-6 sm:px-10 py-10 flex flex-col md:flex-row gap-8 items-center">
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 px-6 sm:px-10 py-10 flex flex-col md:flex-row gap-8 items-center">
             <div className="md:w-1/2 flex justify-center">
               <div className="rounded-2xl overflow-hidden bg-gray-100 max-w-sm w-full shadow-md">
                 <img
@@ -418,21 +496,26 @@ export default function MentorPage() {
             </div>
             <div className="md:w-1/2 w-full">
               <h2 className="text-xl font-bold mb-2 text-gray-800">For Mentorship</h2>
-              <p className="text-sm text-gray-600 mb-6">
-                Got questions about the Landing Page UI Kit? Our team is here to help. Contact us for quick and friendly support.
+              <p className="text-sm text-gray-700 mb-6">
+                Got questions about mentorship? Our team is here to help. Contact us for quick and friendly support.
               </p>
               <div className="space-y-4">
                 <input
                   type="text"
                   placeholder="Full Name"
-                  className="w-full h-11 rounded-full border border-gray-200 px-4 text-sm outline-none focus:ring-2 focus:ring-emerald-300"
+                  className="w-full h-11 rounded-full border border-gray-300 px-4 text-sm outline-none focus:ring-2 focus:ring-emerald-300"
                 />
                 <input
                   type="email"
                   placeholder="Email"
-                  className="w-full h-11 rounded-full border border-gray-200 px-4 text-sm outline-none focus:ring-2 focus:ring-emerald-300"
+                  className="w-full h-11 rounded-full border border-gray-300 px-4 text-sm outline-none focus:ring-2 focus:ring-emerald-300"
                 />
-                <button className="mt-2 px-6 py-2.5 rounded-full bg-emerald-500 text-white text-sm font-semibold hover:bg-emerald-600">
+                <button 
+                  onClick={() => handleAuthAction(() => {
+                    toast.success('Request submitted successfully!');
+                  }, 'submit this form')}
+                  className="mt-2 px-6 py-2.5 rounded-full bg-emerald-500 text-white text-sm font-semibold hover:bg-emerald-600"
+                >
                   Get Started
                 </button>
               </div>
@@ -440,6 +523,10 @@ export default function MentorPage() {
           </div>
         </section>
       </main>
-    </div>
+
+      <Footer />
+    </NetworkBackground>
   );
-}
+};
+
+export default MentorPage;

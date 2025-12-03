@@ -1,17 +1,19 @@
-import React, { JSX } from 'react';
-// import LandingPage from './pages/LandingPage'; 
-import MentorPage from './pages/MentorPage';
-import Notifications from './pages/Notifications'
+// App.tsx
+import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import AppRoutes from './routes/AppRoutes';
+import ScrollToHash from './components/ScrollToHash';
 
-
-function App(): JSX.Element {
+function App() {
   return (
-    <div>
-    {/* <LandingPage />; */}
-    <MentorPage/>
-    <Notifications/>
-    </div>
-    
-)}
+    <AuthProvider>
+      <Router>
+        <ScrollToHash />
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
+  );
+}
 
 export default App;
