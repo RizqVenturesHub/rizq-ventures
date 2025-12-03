@@ -1,8 +1,18 @@
-// src/pages/NotificationsPage.jsx
+// src/pages/NotificationsPage.tsx
 import React, { useState } from "react";
 
+// ----------------- INTERFACES -----------------
+interface Notification {
+  id: number;
+  title: string;
+  desc: string;
+  time: string;
+  category: string;
+  isRead: boolean;
+}
+
 // ----------------- MOCK DATA -----------------
-const initialNotifications = [
+const initialNotifications: Notification[] = [
   {
     id: 1,
     title: "New job matching your profile",
@@ -22,7 +32,7 @@ const initialNotifications = [
   {
     id: 3,
     title: "Application status updated",
-    desc: "Your application for “React Intern” has moved to Screening.",
+    desc: 'Your application for "React Intern" has moved to Screening.', // FIXED: Using single quotes outside
     time: "Yesterday",
     category: "Jobs",
     isRead: true,
@@ -37,10 +47,10 @@ const initialNotifications = [
   },
 ];
 
-const filterTabs = ["All", "Unread", "Jobs", "Mentorship", "Posts"];
+const filterTabs: string[] = ["All", "Unread", "Jobs", "Mentorship", "Posts"];
 
-// ----------------- NAVBAR (same style) -----------------
-const Navbar = () => (
+// ----------------- NAVBAR -----------------
+const Navbar: React.FC = () => (
   <header className="bg-white/80 backdrop-blur-sm sticky top-0 z-20 border-b border-gray-100">
     <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <div className="flex items-center gap-3">
@@ -86,12 +96,12 @@ const Navbar = () => (
 );
 
 // ----------------- MAIN PAGE -----------------
-export default function NotificationsPage() {
-  const [search, setSearch] = useState("");
-  const [activeFilter, setActiveFilter] = useState("All");
-  const [notifications, setNotifications] = useState(initialNotifications);
+const NotificationsPage: React.FC = () => {
+  const [search, setSearch] = useState<string>("");
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [notifications, setNotifications] = useState<Notification[]>(initialNotifications);
 
-  const handleMarkAllRead = () => {
+  const handleMarkAllRead = (): void => {
     setNotifications((prev) =>
       prev.map((n) => ({
         ...n,
@@ -100,7 +110,7 @@ export default function NotificationsPage() {
     );
   };
 
-  const handleToggleRead = (id) => {
+  const handleToggleRead = (id: number): void => {
     setNotifications((prev) =>
       prev.map((n) =>
         n.id === id ? { ...n, isRead: !n.isRead } : n
@@ -197,7 +207,7 @@ export default function NotificationsPage() {
             {filtered.length === 0 ? (
               <div className="py-10 text-center">
                 <p className="text-sm font-semibold text-gray-800 mb-1">
-                  You’re all caught up!
+                  You're all caught up!
                 </p>
                 <p className="text-xs text-gray-500 max-w-sm mx-auto">
                   There are no notifications matching your current filters. Check back later for
@@ -257,4 +267,6 @@ export default function NotificationsPage() {
       </main>
     </div>
   );
-}
+};
+
+export default NotificationsPage; // FIXED: Correct export name

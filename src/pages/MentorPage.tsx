@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import NetworkBackground from '../components/NetworkBackground';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useAuth } from '../context/AuthContext';
 
@@ -99,8 +98,8 @@ const mentorProfiles: MentorProfile[] = [
   { name: "Lina Ibrahim", role: "Design", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=300&q=80" },
 ];
 
-// ----------------- LAYOUT COMPONENTS -----------------
-const Navbar = () => (
+// ----------------- NAVBAR COMPONENT -----------------
+const Navbar: React.FC = () => (
   <header className="bg-white/80 backdrop-blur-sm sticky top-0 z-20 border-b border-gray-100">
     <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <div className="flex items-center gap-3">
@@ -143,71 +142,6 @@ const Navbar = () => (
   </header>
 );
 
-const NetworkBackground = () => {
-  const particlesInit = useCallback(async (engine) => {
-    await loadFull(engine);
-  }, []);
-
-  const options = {
-    fullScreen: {
-      // attach canvas to <body>, full viewport size
-      enable: true,
-      zIndex: -1, // keep it behind page content
-    },
-    background: {
-      color: {
-        value: "#ffffff", // base white like your design
-      },
-    },
-    fpsLimit: 60,
-    interactivity: {
-      detectsOn: "canvas",
-      events: {
-        onHover: {
-          enable: true,
-          mode: "repulse",
-        },
-        resize: true,
-      },
-      modes: {
-        repulse: {
-          distance: 100,
-          duration: 0.4,
-        },
-      },
-    },
-    particles: {
-      color: { value: "#34d399" },
-      links: {
-        color: "#34d399",
-        distance: 150,
-        enable: true,
-        opacity: 0.35,
-        width: 1,
-      },
-      collisions: { enable: false },
-      move: {
-        direction: "none",
-        enable: true,
-        outModes: { default: "bounce" },
-        random: true,
-        speed: 1.3,
-        straight: false,
-      },
-      number: {
-        density: { enable: true, area: 800 },
-        value: 60,
-      },
-      opacity: { value: 0.4 },
-      shape: { type: "circle" },
-      size: { value: { min: 1, max: 3 } },
-    },
-    detectRetina: true,
-  };
-
-  return <Particles id="tsparticles" init={particlesInit} options={options} />;
-}
-
 // ----------------- MAIN PAGE -----------------
 const MentorPage: React.FC = () => {
   const navigate = useNavigate();
@@ -226,7 +160,6 @@ const MentorPage: React.FC = () => {
       return matchesSearch && matchesExpertise;
     });
 
-  // Handle actions that require authentication
   const handleAuthAction = (action: () => void, actionName: string) => {
     if (isAuthenticated) {
       action();
@@ -241,12 +174,12 @@ const MentorPage: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-white-transparent overflow-hidden">
-      <NetworkBackground />
+    <NetworkBackground className="min-h-screen">
+      <Toaster />
       <Navbar />
 
       <main className="relative z-10">
-        {/* ---------- HERO TOP SECTION ---------- */}
+        {/* HERO SECTION */}
         <section className="max-w-6xl mx-auto px-4 pt-16 xl:px-0">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight mb-6 sm:mb-7 text-gray-900">
             Ask Directly
@@ -268,7 +201,6 @@ const MentorPage: React.FC = () => {
             FIND A MENTOR
           </button>
 
-          {/* Search / Category / Go pills */}
           <div className="mt-10 flex flex-col sm:flex-row gap-3 max-w-3xl">
             <input
               type="text"
@@ -288,14 +220,13 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- FIND A MENTOR + STORIES ---------- */}
+        {/* FIND A MENTOR + STORIES */}
         <section className="max-w-6xl mx-auto px-4 mt-10 xl:px-0">
           <h2 className="font-bold text-2xl">Find a Mentor</h2>
           <p className="mb-4 mt-1 text-gray-700 text-sm max-w-xl">
             Connect with experienced professionals who can guide you towards your goals.
           </p>
 
-          {/* Inner search bar */}
           <div className="flex items-center bg-white/70 backdrop-blur-sm rounded-xl px-4 py-2 gap-3 max-w-xl mb-6 border border-gray-200">
             <span className="text-gray-400 text-lg">🔍</span>
             <input
@@ -305,7 +236,6 @@ const MentorPage: React.FC = () => {
             />
           </div>
 
-          {/* Three story cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {heroStories.map((m) => (
               <article
@@ -326,7 +256,7 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- MENTOR CATEGORIES ---------- */}
+        {/* MENTOR CATEGORIES */}
         <section className="max-w-6xl mx-auto px-4 mt-12 xl:px-0">
           <h2 className="text-lg font-bold mb-3">Mentor Categories</h2>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -346,7 +276,7 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- UPCOMING EVENTS ---------- */}
+        {/* UPCOMING EVENTS */}
         <section className="max-w-6xl mx-auto px-4 mt-12 xl:px-0">
           <h2 className="text-lg font-bold mb-2">Upcoming Mentorship Events</h2>
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 max-w-2xl border border-gray-200">
@@ -368,7 +298,7 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- COMMUNITY + WHY BECOME A MENTOR ---------- */}
+        {/* COMMUNITY + WHY BECOME A MENTOR */}
         <section className="max-w-6xl mx-auto px-4 mt-12 mb-16 xl:px-0 space-y-10">
           <div>
             <h2 className="text-lg font-bold mb-1">Community Forum</h2>
@@ -403,11 +333,10 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- MENTORS GRID ---------- */}
+        {/* MENTORS GRID */}
         <section id="mentors-grid" className="mt-10 mb-16">
           <div className="w-full flex justify-center px-4">
             <div className="w-full max-w-5xl bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 px-6 sm:px-10 pt-6 pb-8">
-              {/* Search bar */}
               <div className="w-full mb-4">
                 <input
                   type="text"
@@ -418,7 +347,6 @@ const MentorPage: React.FC = () => {
                 />
               </div>
 
-              {/* Tabs */}
               <div className="flex flex-wrap items-center justify-start gap-2 mb-6">
                 {expertiseTabs.map((tab) => (
                   <button
@@ -435,7 +363,6 @@ const MentorPage: React.FC = () => {
                 ))}
               </div>
 
-              {/* Avatars grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-items-center gap-x-6 gap-y-8 mb-6">
                 {filteredProfiles.map((m) => (
                   <div
@@ -482,7 +409,7 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- FOR MENTORSHIP CARD ---------- */}
+        {/* FOR MENTORSHIP CARD */}
         <section className="max-w-6xl mx-auto px-4 mb-24 xl:px-0">
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 px-6 sm:px-10 py-10 flex flex-col md:flex-row gap-8 items-center">
             <div className="md:w-1/2 flex justify-center">
