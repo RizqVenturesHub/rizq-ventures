@@ -1,7 +1,8 @@
-// src/pages/job-posting/NormalPostPage.tsx
+// pages/job-posting/NormalPostPage.tsx
 import React from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import { ImageUp } from 'lucide-react';
 
 const NormalPostPage: React.FC = () => {
   return (
@@ -9,8 +10,8 @@ const NormalPostPage: React.FC = () => {
       <Header />
 
       <main className="flex-1 flex justify-center items-start py-10 px-4">
-        <div className="w-full max-w-3xl bg-white rounded-3xl shadow-xl border border-gray-100 px-10 py-10">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#163567] text-center mb-10">
+        <div className="w-full max-w-3xl bg-white rounded-3xl shadow-xl border border-primary-light px-10 py-10">
+          <h1 className="text-2xl sm:text-3xl font-bold text-primary text-center mb-10">
             Create Post
           </h1>
 
@@ -23,19 +24,19 @@ const NormalPostPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="Enter post title"
-                className="w-full border-b border-gray-300 focus:border-[#163567] outline-none py-2 text-sm"
+                className="w-full border-b border-gray-300 focus:border-primary outline-none py-2 text-sm"
               />
             </div>
 
             {/* Content */}
             <div>
-              <label className="block text-sm font-medium text-[#163567] mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Content
               </label>
               <textarea
                 rows={4}
                 placeholder="Write your content here..."
-                className="w-full border-b border-gray-300 focus:border-[#163567] outline-none py-2 text-sm resize-none"
+                className="w-full border-b border-gray-300 focus:border-primary outline-none py-2 text-sm resize-none"
               />
             </div>
 
@@ -47,7 +48,7 @@ const NormalPostPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="Add tags separated by commas"
-                className="w-full border-b border-gray-300 focus:border-[#163567] outline-none py-2 text-sm"
+                className="w-full border-b border-gray-300 focus:border-primary outline-none py-2 text-sm"
               />
             </div>
 
@@ -62,9 +63,9 @@ const NormalPostPage: React.FC = () => {
                 </span>
                 <button
                   type="button"
-                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-[#163567]"
+                  className="w-8 h-8 rounded-full border border-primary-light flex items-center justify-center text-primary hover:bg-primary-light"
                 >
-                  ⬆️
+                  <ImageUp className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -73,7 +74,7 @@ const NormalPostPage: React.FC = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full h-11 rounded-full bg-[#163567] text-white font-semibold text-sm hover:bg-[#10254a] transition-colors"
+                className="w-full h-11 rounded-full bg-primary text-white font-semibold text-sm hover:bg-primary-dark1 transition-colors"
               >
                 Submit
               </button>

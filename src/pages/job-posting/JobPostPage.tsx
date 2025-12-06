@@ -1,7 +1,8 @@
-// src/pages/job-posting/JobPostPage.tsx
+// pages/job-posting/JobPostPage.tsx
 import React from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import { ImageUp, CalendarDays, ChevronDown } from 'lucide-react';
 
 const JobPostPage: React.FC = () => {
   return (
@@ -9,8 +10,8 @@ const JobPostPage: React.FC = () => {
       <Header />
 
       <main className="flex-1 flex justify-center items-start py-10 px-4">
-        <div className="w-full max-w-3xl bg-white rounded-3xl shadow-xl border border-gray-100 px-10 py-10">
-          <h1 className="text-2xl sm:text-3xl font-bold text-[#163567] text-center mb-10">
+        <div className="w-full max-w-3xl bg-white rounded-3xl shadow-xl border border-primary-light px-10 py-10">
+          <h1 className="text-2xl sm:text-3xl font-bold text-primary text-center mb-10">
             Job Posting
           </h1>
 
@@ -23,19 +24,19 @@ const JobPostPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="Enter job title"
-                className="w-full border-b border-gray-300 focus:border-[#163567] outline-none py-2 text-sm"
+                className="w-full border-b border-gray-300 focus:border-primary outline-none py-2 text-sm"
               />
             </div>
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-[#163567] mb-2">
+              <label className="block text-sm font-medium  text-gray-700 mb-2">
                 Description
               </label>
               <textarea
                 rows={3}
                 placeholder="Describe the role, responsibilities, and expectations"
-                className="w-full border-b border-gray-300 focus:border-[#163567] outline-none py-2 text-sm resize-none"
+                className="w-full border-b border-gray-300 focus:border-primary outline-none py-2 text-sm resize-none"
               />
             </div>
 
@@ -47,7 +48,7 @@ const JobPostPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="City, Country or Remote"
-                className="w-full border-b border-gray-300 focus:border-[#163567] outline-none py-2 text-sm"
+                className="w-full border-b border-gray-300 focus:border-primary outline-none py-2 text-sm"
               />
             </div>
 
@@ -64,9 +65,10 @@ const JobPostPage: React.FC = () => {
                 />
                 <button
                   type="button"
-                  className="flex items-center gap-1 px-3 py-1 border border-gray-300 rounded-full text-xs text-gray-700"
+                  className="flex items-center gap-1 px-3 py-1 border border-primary-light rounded-full text-xs text-gray-700"
                 >
-                  ₹
+                  <span className="text-primary">₹</span>
+                  <ChevronDown className="w-3 h-3 text-gray-500" />
                 </button>
               </div>
             </div>
@@ -79,7 +81,7 @@ const JobPostPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="React, Java, Communication..."
-                className="w-full border-b border-gray-300 focus:border-[#163567] outline-none py-2 text-sm"
+                className="w-full border-b border-gray-300 focus:border-primary outline-none py-2 text-sm"
               />
             </div>
 
@@ -91,7 +93,7 @@ const JobPostPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="Bachelor's, Master's, etc."
-                className="w-full border-b border-gray-300 focus:border-[#163567] outline-none py-2 text-sm"
+                className="w-full border-b border-gray-300 focus:border-primary outline-none py-2 text-sm"
               />
             </div>
 
@@ -103,7 +105,7 @@ const JobPostPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="e.g. 2-4 years"
-                className="w-full border-b border-gray-300 focus:border-[#163567] outline-none py-2 text-sm"
+                className="w-full border-b border-gray-300 focus:border-primary outline-none py-2 text-sm"
               />
             </div>
 
@@ -116,15 +118,17 @@ const JobPostPage: React.FC = () => {
                 <span className="text-sm text-gray-600">Full Time</span>
                 <button
                   type="button"
-                  className="flex items-center gap-1 px-3 py-1 border border-gray-300 rounded-full text-xs text-gray-700"
+                  className="flex items-center gap-1 px-3 py-1 border border-primary-light rounded-full text-xs text-gray-700"
                 >
-                  ▼
+                  <ChevronDown className="w-3 h-3 text-gray-500" />
                 </button>
               </div>
             </div>
 
+
             {/* Deadline + Upload JD */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Deadline
@@ -133,12 +137,14 @@ const JobPostPage: React.FC = () => {
                   <span className="text-xs text-gray-400">Select date</span>
                   <button
                     type="button"
-                    className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-[#163567]"
+                    className="w-8 h-8 rounded-full border border-primary-light flex items-center justify-center text-primary hover:bg-primary-light"
                   >
-                    📅
+                    <CalendarDays className="w-4 h-4" />
                   </button>
                 </div>
               </div>
+
+              {/* Upload JD */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Upload JD
@@ -147,9 +153,9 @@ const JobPostPage: React.FC = () => {
                   <span className="text-xs text-gray-400">PDF, DOC up to 5 MB</span>
                   <button
                     type="button"
-                    className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-[#163567]"
+                    className="w-8 h-8 rounded-full border border-primary-light flex items-center justify-center text-primary hover:bg-primary-light"
                   >
-                    ⬆️
+                    <ImageUp className="w-4 h-4" />
                   </button>
                 </div>
               </div>
@@ -159,7 +165,7 @@ const JobPostPage: React.FC = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full h-11 rounded-full bg-[#163567] text-white font-semibold text-sm hover:bg-[#10254a] transition-colors"
+                className="w-full h-11 rounded-full bg-primary text-white font-semibold text-sm hover:bg-primary-dark1 transition-colors"
               >
                 Submit
               </button>
