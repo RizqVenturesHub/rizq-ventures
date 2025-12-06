@@ -63,12 +63,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    // Optional: Call backend logout endpoint
-  };
+const logout = () => {
+  setUser(null);
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
+};
 
   const updateUser = (userData: Partial<User>) => {
     if (user) {
@@ -77,6 +76,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(updatedUser));
     }
   };
+
+  
 
   const value: AuthContextType = {
     user,

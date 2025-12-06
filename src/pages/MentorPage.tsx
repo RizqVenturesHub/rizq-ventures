@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import NetworkBackground from '../components/NetworkBackground';
+import Header from '../components/Header'; // ADDED: shared header
 import Footer from '../components/Footer';
 import { useAuth } from '../context/AuthContext';
 
@@ -98,50 +99,6 @@ const mentorProfiles: MentorProfile[] = [
   { name: "Lina Ibrahim", role: "Design", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=300&q=80" },
 ];
 
-// ----------------- NAVBAR COMPONENT -----------------
-const Navbar: React.FC = () => (
-  <header className="bg-white/80 backdrop-blur-sm sticky top-0 z-20 border-b border-gray-100">
-    <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        <div className="h-8 w-8 rounded-lg bg-emerald-500 grid place-items-center text-white font-bold">
-          R
-        </div>
-        <span className="text-lg font-semibold text-gray-800">
-          Rizq <span className="font-light">ventures</span>
-        </span>
-      </div>
-      <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-        <a href="/#" className="hover:text-gray-900">
-          Home
-        </a>
-        <a href="/#" className="hover:text-gray-900">
-          Posts
-        </a>
-        <a href="/#" className="hover:text-gray-900">
-          Jobs
-        </a>
-        <a href="/#" className="hover:text-gray-900">
-          About Us
-        </a>
-        <a
-          href="/#"
-          className="text-emerald-500 border-b-2 border-emerald-500 pb-1"
-        >
-          Mentors
-        </a>
-      </nav>
-      <div className="flex items-center gap-4">
-        <button className="text-sm font-medium text-gray-700 hover:text-black">
-          Login
-        </button>
-        <button className="text-sm font-medium px-4 py-2 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600">
-          Sign Up
-        </button>
-      </div>
-    </div>
-  </header>
-);
-
 // ----------------- MAIN PAGE -----------------
 const MentorPage: React.FC = () => {
   const navigate = useNavigate();
@@ -176,7 +133,7 @@ const MentorPage: React.FC = () => {
   return (
     <NetworkBackground className="min-h-screen">
       <Toaster />
-      <Navbar />
+      <Header /> {/* CHANGED: using shared Header instead of local Navbar */}
 
       <main className="relative z-10">
         {/* HERO SECTION */}

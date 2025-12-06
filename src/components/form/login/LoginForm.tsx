@@ -11,7 +11,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
 
@@ -20,7 +20,7 @@ export default function LoginForm() {
   const VALID_PASSWORD = "123456";
 
   // Get the redirect path from location state, default to Jobs page
-  const from = (location.state as any)?.from?.pathname || "/#jobs";
+  const from = (location.state as any)?.from?.pathname || "/";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,7 +53,7 @@ export default function LoginForm() {
 
         // Redirect to Jobs page after a short delay
         setTimeout(() => {
-          navigate("/#jobs", { replace: true });
+          navigate(from, { replace: true });  // <-- use from, not "/#jobs"
         }, 500);
       } else {
         // Invalid credentials
@@ -97,11 +97,10 @@ export default function LoginForm() {
             setError(""); // Clear error on input change
           }}
           placeholder="Enter your email address"
-          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-            error
+          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${error
               ? "border-red-300 focus:ring-red-500 focus:border-red-500"
               : "border-gray-300 focus:ring-primary focus:border-transparent"
-          }`}
+            }`}
           required
           disabled={isLoading}
         />
@@ -125,11 +124,10 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className={`w-full py-3 rounded-full font-semibold transition-all shadow-md hover:shadow-lg ${
-          isLoading
+        className={`w-full py-3 rounded-full font-semibold transition-all shadow-md hover:shadow-lg ${isLoading
             ? "bg-gray-400 cursor-not-allowed"
             : "bg-primary text-white hover:bg-primary-dark"
-        }`}
+          }`}
       >
         {isLoading ? (
           <span className="flex items-center justify-center">
