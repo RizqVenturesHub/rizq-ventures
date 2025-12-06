@@ -12,7 +12,9 @@ const LandingPage: React.FC = () => {
     <div className="min-h-screen">
       <Header />
       <Hero />
-      <JobSection />
+      <div id="jobs"> {/* ENSURE: Jobs section has this ID */}
+        <JobSection />
+      </div>
       <MentorSection />
       <ContactSection />
       <Footer />

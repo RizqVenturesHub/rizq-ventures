@@ -2,6 +2,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import ProtectedRoute from '../components/ProtectedRoute';
 import LandingPage from '../pages/LandingPage';
 import ProfilePage from '../pages/ProfilePage';
 import PostsPage from '../pages/PostsPage';
@@ -9,10 +10,12 @@ import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignUpPage';
 import MessagingPage from '../pages/MessagingPage';
 import MentorPage from '../pages/MentorPage';
+import NotificationsPage from '../pages/NotificationsPage';
 import JobListingsPage from '../pages/JobListingsPage';
 
+
 const AppRoutes: React.FC = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isLoading } = useAuth();
 
   if (isLoading) {
     return (
@@ -37,15 +40,35 @@ const AppRoutes: React.FC = () => {
       {/* Protected routes */}
       <Route
         path="/profile"
-        element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />}
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/posts"
-        element={isAuthenticated ? <PostsPage /> : <Navigate to="/login" replace />}
+        element={
+          <ProtectedRoute>
+            <PostsPage />
+          </ProtectedRoute>
+        }
       />
       <Route
         path="/messages"
-        element={isAuthenticated ? <MessagingPage /> : <Navigate to="/login" replace />}
+        element={
+          <ProtectedRoute>
+            <MessagingPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/notifications"
+        element={
+          <ProtectedRoute>
+            <NotificationsPage />
+          </ProtectedRoute>
+        }
       />
 
       {/* Catch all - redirect to home */}

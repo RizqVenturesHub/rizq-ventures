@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import NetworkBackground from '../components/NetworkBackground';
-import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useAuth } from '../context/AuthContext';
 
@@ -99,6 +98,50 @@ const mentorProfiles: MentorProfile[] = [
   { name: "Lina Ibrahim", role: "Design", image: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?w=300&q=80" },
 ];
 
+// ----------------- NAVBAR COMPONENT -----------------
+const Navbar: React.FC = () => (
+  <header className="bg-white/80 backdrop-blur-sm sticky top-0 z-20 border-b border-gray-100">
+    <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <div className="h-8 w-8 rounded-lg bg-emerald-500 grid place-items-center text-white font-bold">
+          R
+        </div>
+        <span className="text-lg font-semibold text-gray-800">
+          Rizq <span className="font-light">ventures</span>
+        </span>
+      </div>
+      <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+        <a href="/#" className="hover:text-gray-900">
+          Home
+        </a>
+        <a href="/#" className="hover:text-gray-900">
+          Posts
+        </a>
+        <a href="/#" className="hover:text-gray-900">
+          Jobs
+        </a>
+        <a href="/#" className="hover:text-gray-900">
+          About Us
+        </a>
+        <a
+          href="/#"
+          className="text-emerald-500 border-b-2 border-emerald-500 pb-1"
+        >
+          Mentors
+        </a>
+      </nav>
+      <div className="flex items-center gap-4">
+        <button className="text-sm font-medium text-gray-700 hover:text-black">
+          Login
+        </button>
+        <button className="text-sm font-medium px-4 py-2 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600">
+          Sign Up
+        </button>
+      </div>
+    </div>
+  </header>
+);
+
 // ----------------- MAIN PAGE -----------------
 const MentorPage: React.FC = () => {
   const navigate = useNavigate();
@@ -117,7 +160,6 @@ const MentorPage: React.FC = () => {
       return matchesSearch && matchesExpertise;
     });
 
-  // Handle actions that require authentication
   const handleAuthAction = (action: () => void, actionName: string) => {
     if (isAuthenticated) {
       action();
@@ -134,10 +176,10 @@ const MentorPage: React.FC = () => {
   return (
     <NetworkBackground className="min-h-screen">
       <Toaster />
-      <Header />
+      <Navbar />
 
       <main className="relative z-10">
-        {/* ---------- HERO TOP SECTION ---------- */}
+        {/* HERO SECTION */}
         <section className="max-w-6xl mx-auto px-4 pt-16 xl:px-0">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight mb-6 sm:mb-7 text-gray-900">
             Ask Directly
@@ -159,7 +201,6 @@ const MentorPage: React.FC = () => {
             FIND A MENTOR
           </button>
 
-          {/* Search / Category / Go pills */}
           <div className="mt-10 flex flex-col sm:flex-row gap-3 max-w-3xl">
             <input
               type="text"
@@ -179,14 +220,13 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- FIND A MENTOR + STORIES ---------- */}
+        {/* FIND A MENTOR + STORIES */}
         <section className="max-w-6xl mx-auto px-4 mt-10 xl:px-0">
           <h2 className="font-bold text-2xl">Find a Mentor</h2>
           <p className="mb-4 mt-1 text-gray-700 text-sm max-w-xl">
             Connect with experienced professionals who can guide you towards your goals.
           </p>
 
-          {/* Inner search bar */}
           <div className="flex items-center bg-white/70 backdrop-blur-sm rounded-xl px-4 py-2 gap-3 max-w-xl mb-6 border border-gray-200">
             <span className="text-gray-400 text-lg">🔍</span>
             <input
@@ -196,7 +236,6 @@ const MentorPage: React.FC = () => {
             />
           </div>
 
-          {/* Three story cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {heroStories.map((m) => (
               <article
@@ -217,7 +256,7 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- MENTOR CATEGORIES ---------- */}
+        {/* MENTOR CATEGORIES */}
         <section className="max-w-6xl mx-auto px-4 mt-12 xl:px-0">
           <h2 className="text-lg font-bold mb-3">Mentor Categories</h2>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -237,7 +276,7 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- UPCOMING EVENTS ---------- */}
+        {/* UPCOMING EVENTS */}
         <section className="max-w-6xl mx-auto px-4 mt-12 xl:px-0">
           <h2 className="text-lg font-bold mb-2">Upcoming Mentorship Events</h2>
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-5 max-w-2xl border border-gray-200">
@@ -259,7 +298,7 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- COMMUNITY + WHY BECOME A MENTOR ---------- */}
+        {/* COMMUNITY + WHY BECOME A MENTOR */}
         <section className="max-w-6xl mx-auto px-4 mt-12 mb-16 xl:px-0 space-y-10">
           <div>
             <h2 className="text-lg font-bold mb-1">Community Forum</h2>
@@ -294,11 +333,10 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- MENTORS GRID ---------- */}
+        {/* MENTORS GRID */}
         <section id="mentors-grid" className="mt-10 mb-16">
           <div className="w-full flex justify-center px-4">
             <div className="w-full max-w-5xl bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 px-6 sm:px-10 pt-6 pb-8">
-              {/* Search bar */}
               <div className="w-full mb-4">
                 <input
                   type="text"
@@ -309,7 +347,6 @@ const MentorPage: React.FC = () => {
                 />
               </div>
 
-              {/* Tabs */}
               <div className="flex flex-wrap items-center justify-start gap-2 mb-6">
                 {expertiseTabs.map((tab) => (
                   <button
@@ -326,7 +363,6 @@ const MentorPage: React.FC = () => {
                 ))}
               </div>
 
-              {/* Avatars grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-items-center gap-x-6 gap-y-8 mb-6">
                 {filteredProfiles.map((m) => (
                   <div
@@ -373,7 +409,7 @@ const MentorPage: React.FC = () => {
           </div>
         </section>
 
-        {/* ---------- FOR MENTORSHIP CARD ---------- */}
+        {/* FOR MENTORSHIP CARD */}
         <section className="max-w-6xl mx-auto px-4 mb-24 xl:px-0">
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 px-6 sm:px-10 py-10 flex flex-col md:flex-row gap-8 items-center">
             <div className="md:w-1/2 flex justify-center">
