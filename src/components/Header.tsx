@@ -34,6 +34,19 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // UPDATED: Set active section based on current route
+  useEffect(() => {
+    if (location.pathname === '/jobs') {
+      setActiveSection('jobs');
+    } else if (location.pathname === '/mentors') {
+      setActiveSection('mentors');
+    } else if (location.pathname === '/posts') {
+      setActiveSection('posts');
+    } else if (location.pathname === '/') {
+      setActiveSection('home');
+    }
+  }, [location.pathname]);
+
   const navLinkClass = (section: string) => {
     return activeSection === section
       ? 'text-primary font-bold border-b-2 border-primary transition-colors pb-1'
@@ -51,9 +64,13 @@ const Header: React.FC = () => {
     );
   };
 
-  // CHANGED: Always navigate to /mentors page
   const handleMentorsClick = () => {
     navigate('/mentors');
+  };
+
+  // ADDED: Handle Jobs navigation
+  const handleJobsClick = () => {
+    navigate('/jobs');
   };
 
   return (
@@ -82,16 +99,20 @@ const Header: React.FC = () => {
                 Posts
               </a>
             </li>
+            {/* CHANGED: Changed from anchor to button with onClick */}
             <li>
-              <a href="/#jobs" className={navLinkClass('jobs')}>
+              <button
+                onClick={handleJobsClick}
+                className={`${navLinkClass('jobs')} bg-transparent border-none cursor-pointer p-0`}
+              >
                 Jobs
-              </a>
+              </button>
             </li>
-            <li>
+            {/* <li>
               <a href="/#about" className={navLinkClass('about')}>
                 About Us
               </a>
-            </li>
+            </li> */}
             <li>
               <button
                 onClick={handleMentorsClick}
