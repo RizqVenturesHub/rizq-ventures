@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import ProtectedRoute from '../components/ProtectedRoute'; 
+import ProtectedRoute from '../components/ProtectedRoute';
 import LandingPage from '../pages/LandingPage';
 import ProfilePage from '../pages/ProfilePage';
 import PostsPage from '../pages/PostsPage';
@@ -13,6 +13,8 @@ import MentorPage from '../pages/MentorPage';
 // routes/AppRoutes.tsx
 import NotificationsPage from '../pages/NotificationsPage';
 import JobListingsPage from '../pages/JobListingsPage';
+import NormalPostPage from '../pages/job-posting/NormalPostPage';
+import JobPostPage from '../pages/job-posting/JobPostPage';
 
 
 const AppRoutes: React.FC = () => {
@@ -71,7 +73,22 @@ const AppRoutes: React.FC = () => {
           </ProtectedRoute>
         }
       />
-
+      <Route
+        path="/create-post"
+        element={
+          <ProtectedRoute>
+            <NormalPostPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/create-job"
+        element={
+          <ProtectedRoute>
+            <JobPostPage />
+          </ProtectedRoute>
+        }
+      />
       {/* Catch all - redirect to home */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

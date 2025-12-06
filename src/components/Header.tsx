@@ -11,6 +11,7 @@ const Header: React.FC = () => {
   const [unreadNotifications] = useState(5);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef<HTMLDivElement | null>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -177,8 +178,9 @@ const Header: React.FC = () => {
               <>
                 {/* Plus Icon - Create New Post */}
                 <button
+                  onClick={() => setIsCreateModalOpen(true)}
                   className="w-10 h-10 rounded-full bg-primary-light flex items-center justify-center hover:bg-primary-light2 transition-all"
-                  title="Create Post"
+                  title="Create"
                 >
                   <Plus className="w-5 h-5 text-primary" />
                 </button>
@@ -269,6 +271,46 @@ const Header: React.FC = () => {
           </div>
         </div>
       </div>
+      {isCreateModalOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm px-8 py-6 relative">
+            <button
+              onClick={() => setIsCreateModalOpen(false)}
+              className="absolute right-4 top-3 text-gray-400 hover:text-gray-600 text-lg"
+              aria-label="Close"
+            >
+              ×
+            </button>
+
+            <h2 className="text-center text-lg font-bold text-[#163567] mb-6">
+              Post Type
+            </h2>
+
+            <div className="flex items-center justify-center gap-4">
+              <button
+                onClick={() => {
+                  setIsCreateModalOpen(false);
+                  navigate('/create-post');
+                }}
+                className="px-6 py-2 rounded-full border border-gray-300 text-sm font-medium text-gray-800 hover:bg-gray-50 transition-colors"
+              >
+                Normal Post
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsCreateModalOpen(false);
+                  navigate('/create-job');
+                }}
+                className="px-6 py-2 rounded-full border-2 border-[#163567] text-sm font-medium text-[#163567] hover:bg-[#163567] hover:text-white transition-colors"
+              >
+                Job Post
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </nav>
   );
 };
