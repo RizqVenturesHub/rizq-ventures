@@ -1,5 +1,5 @@
 // src/pages/NotificationsPage.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -53,6 +53,9 @@ const filterTabs: string[] = ["All", "Unread", "Jobs", "Mentorship", "Posts"];
 
 // ----------------- MAIN PAGE -----------------
 const NotificationsPage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, []);
   const [search, setSearch] = useState<string>("");
   const [activeFilter, setActiveFilter] = useState<string>("All");
   const [notifications, setNotifications] = useState<Notification[]>(initialNotifications);
@@ -84,8 +87,8 @@ const NotificationsPage: React.FC = () => {
       activeFilter === "All"
         ? true
         : activeFilter === "Unread"
-        ? !n.isRead
-        : n.category === activeFilter;
+          ? !n.isRead
+          : n.category === activeFilter;
 
     return matchesSearch && matchesFilter;
   });
@@ -144,11 +147,10 @@ const NotificationsPage: React.FC = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveFilter(tab)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-medium border transition-colors ${
-                    activeFilter === tab
+                  className={`px-4 py-1.5 rounded-full text-xs font-medium border transition-colors ${activeFilter === tab
                       ? "bg-emerald-500 text-white border-emerald-500"
                       : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
-                  }`}
+                    }`}
                 >
                   {tab}
                 </button>
@@ -176,15 +178,13 @@ const NotificationsPage: React.FC = () => {
                   <li key={n.id}>
                     <button
                       onClick={() => handleToggleRead(n.id)}
-                      className={`w-full text-left flex items-start gap-4 py-4 transition ${
-                        n.isRead ? "bg-white" : "bg-emerald-50"
-                      } hover:bg-emerald-100/60 rounded-xl px-3 -mx-3`}
+                      className={`w-full text-left flex items-start gap-4 py-4 transition ${n.isRead ? "bg-white" : "bg-emerald-50"
+                        } hover:bg-emerald-100/60 rounded-xl px-3 -mx-3`}
                     >
                       <div className="pt-1">
                         <span
-                          className={`inline-block h-2.5 w-2.5 rounded-full ${
-                            n.isRead ? "bg-gray-300" : "bg-emerald-500"
-                          }`}
+                          className={`inline-block h-2.5 w-2.5 rounded-full ${n.isRead ? "bg-gray-300" : "bg-emerald-500"
+                            }`}
                         />
                       </div>
 
