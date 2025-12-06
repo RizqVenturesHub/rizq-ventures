@@ -1,20 +1,10 @@
-// pages/JobListingsPage.tsx
+// src/pages/JobListingsPage.tsx
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import JobFilters from '../components/JobListings/JobFilters'; 
-import JobList from '../components/JobListings/JobList'; 
-
-export interface JobFiltersState {
-  location: string;
-  jobType: string[];
-  experienceLevel: string[];
-  salaryRange: [number, number];
-  datePosted: string;
-  deadline: string;
-  skills: string[];
-  searchQuery: string;
-}
+import JobFilters from '../components/JobListings/JobFilters';
+import JobList from '../components/JobListings/JobList';
+import { JobFiltersState } from '../types/jobFilters'; // see step 2
 
 const JobListingsPage: React.FC = () => {
   const [filters, setFilters] = useState<JobFiltersState>({
@@ -38,12 +28,10 @@ const JobListingsPage: React.FC = () => {
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Left Sidebar - Filters */}
           <aside className="w-full lg:w-80 flex-shrink-0">
             <JobFilters filters={filters} onFilterChange={handleFilterChange} />
           </aside>
 
-          {/* Right Content - Job Listings */}
           <div className="flex-1">
             <JobList filters={filters} />
           </div>

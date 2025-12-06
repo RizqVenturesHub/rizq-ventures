@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import ProtectedRoute from '../components/ProtectedRoute';
+import ProtectedRoute from '../components/ProtectedRoute'; 
 import LandingPage from '../pages/LandingPage';
 import ProfilePage from '../pages/ProfilePage';
 import PostsPage from '../pages/PostsPage';
@@ -10,8 +10,10 @@ import LoginPage from '../pages/LoginPage';
 import SignupPage from '../pages/SignUpPage';
 import MessagingPage from '../pages/MessagingPage';
 import MentorPage from '../pages/MentorPage';
+// routes/AppRoutes.tsx
 import NotificationsPage from '../pages/NotificationsPage';
 import JobListingsPage from '../pages/JobListingsPage';
+
 
 const AppRoutes: React.FC = () => {
   const { isLoading } = useAuth();

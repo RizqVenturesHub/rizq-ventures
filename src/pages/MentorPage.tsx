@@ -1,5 +1,5 @@
 // pages/MentorPage.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import NetworkBackground from '../components/NetworkBackground';
@@ -101,6 +101,9 @@ const mentorProfiles: MentorProfile[] = [
 
 // ----------------- MAIN PAGE -----------------
 const MentorPage: React.FC = () => {
+    useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+  }, []);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const [searchTop, setSearchTop] = useState<string>("");

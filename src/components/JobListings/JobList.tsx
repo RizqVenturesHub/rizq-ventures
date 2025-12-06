@@ -1,7 +1,7 @@
 // components/JobListings/JobList.tsx
 import React, { useState } from 'react';
 import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
-import { JobFiltersState } from '../../pages/JobListingsPage';
+import { JobFiltersState } from '../../types/jobFilters'; // CHANGED
 import JobCard from './JobCard';
 
 interface JobListProps {

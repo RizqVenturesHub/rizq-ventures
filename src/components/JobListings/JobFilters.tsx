@@ -1,6 +1,6 @@
 // components/JobListings/JobFilters.tsx
 import React from 'react';
-import { JobFiltersState } from '../../pages/JobListingsPage';
+import { JobFiltersState } from '../../types/jobFilters'; 
 import LocationFilter from './LocationFilter'; 
 import JobTypeFilter from './JobTypeFilter'; 
 import ExperienceFilter from './ExperienceFilter';

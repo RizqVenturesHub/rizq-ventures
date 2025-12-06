@@ -144,11 +144,13 @@ const Header: React.FC = () => {
                 Home
               </a>
             </li>
-            <li>
-              <a href="/posts" className={navLinkClass('posts')}>
-                Posts
-              </a>
-            </li>
+            {isAuthenticated && (
+              <li>
+                <a href="/posts" className={navLinkClass('posts')}>
+                  Posts
+                </a>
+              </li>
+            )}
             <li>
               <a
                 href={isAuthenticated ? '/jobs' : '/#jobs'}
@@ -185,8 +187,8 @@ const Header: React.FC = () => {
                 <button
                   onClick={() => navigate('/notifications')}
                   className={`w-10 h-10 rounded-full flex items-center justify-center transition-all relative ${isNotificationsPage
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
                     }`}
                   title="Notifications"
                 >
@@ -200,8 +202,8 @@ const Header: React.FC = () => {
                 <button
                   onClick={() => navigate('/messages')}
                   className={`w-10 h-10 rounded-full flex items-center justify-center transition-all relative ${isMessagesPage
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+                    ? 'bg-primary text-white'
+                    : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
                     }`}
                   title="Messages"
                 >
@@ -216,8 +218,8 @@ const Header: React.FC = () => {
                   <button
                     onClick={() => setIsProfileMenuOpen((prev) => !prev)}
                     className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${isProfilePage
-                        ? 'bg-primary text-white'
-                        : 'bg-gray-200 hover:bg-gray-300 text-gray-600'
+                      ? 'bg-primary text-white'
+                      : 'bg-gray-200 hover:bg-gray-300 text-gray-600'
                       }`}
                     title="Profile"
                   >
