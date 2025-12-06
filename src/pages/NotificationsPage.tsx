@@ -1,5 +1,7 @@
 // src/pages/NotificationsPage.tsx
 import React, { useState } from "react";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 // ----------------- INTERFACES -----------------
 interface Notification {
@@ -32,7 +34,7 @@ const initialNotifications: Notification[] = [
   {
     id: 3,
     title: "Application status updated",
-    desc: 'Your application for "React Intern" has moved to Screening.', // FIXED: Using single quotes outside
+    desc: 'Your application for "React Intern" has moved to Screening.',
     time: "Yesterday",
     category: "Jobs",
     isRead: true,
@@ -48,52 +50,6 @@ const initialNotifications: Notification[] = [
 ];
 
 const filterTabs: string[] = ["All", "Unread", "Jobs", "Mentorship", "Posts"];
-
-// ----------------- NAVBAR -----------------
-const Navbar: React.FC = () => (
-  <header className="bg-white/80 backdrop-blur-sm sticky top-0 z-20 border-b border-gray-100">
-    <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        <div className="h-8 w-8 rounded-lg bg-emerald-500 grid place-items-center text-white font-bold">
-          R
-        </div>
-        <span className="text-lg font-semibold text-gray-800">
-          Rizq <span className="font-light">ventures</span>
-        </span>
-      </div>
-
-      <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-        <a href="/#" className="hover:text-gray-900">
-          Home
-        </a>
-        <a href="/#" className="hover:text-gray-900">
-          Posts
-        </a>
-        <a href="/#" className="hover:text-gray-900">
-          Jobs
-        </a>
-        <a href="/#" className="hover:text-gray-900">
-          About Us
-        </a>
-        <a
-          href="/#"
-          className="text-emerald-500 border-b-2 border-emerald-500 pb-1"
-        >
-          Notifications
-        </a>
-      </nav>
-
-      <div className="flex items-center gap-4">
-        <button className="text-sm font-medium text-gray-700 hover:text-black">
-          Login
-        </button>
-        <button className="text-sm font-medium px-4 py-2 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600">
-          Sign Up
-        </button>
-      </div>
-    </div>
-  </header>
-);
 
 // ----------------- MAIN PAGE -----------------
 const NotificationsPage: React.FC = () => {
@@ -137,10 +93,10 @@ const NotificationsPage: React.FC = () => {
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   return (
-    <div className="relative min-h-screen bg-white overflow-hidden">
-      <Navbar />
+    <div className="relative min-h-screen bg-white overflow-hidden flex flex-col">
+      <Header />
 
-      <main className="relative z-10">
+      <main className="relative z-10 flex-1">
         {/* ---------- PAGE HEADER ---------- */}
         <section className="max-w-6xl mx-auto px-4 pt-16 xl:px-0">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight mb-4 text-gray-900">
@@ -158,7 +114,7 @@ const NotificationsPage: React.FC = () => {
             </div>
             <button
               onClick={handleMarkAllRead}
-              className="text-xs font-semibold px-4 py-1.5 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200"
+              className="text-xs font-semibold px-4 py-1.5 rounded-full bg-gray-100 text-gray-800 hover:bg-gray-200 transition-colors"
             >
               Mark all as read
             </button>
@@ -188,7 +144,7 @@ const NotificationsPage: React.FC = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveFilter(tab)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-medium border ${
+                  className={`px-4 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                     activeFilter === tab
                       ? "bg-emerald-500 text-white border-emerald-500"
                       : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
@@ -265,8 +221,10 @@ const NotificationsPage: React.FC = () => {
           </div>
         </section>
       </main>
+
+      <Footer />
     </div>
   );
 };
 
-export default NotificationsPage; // FIXED: Correct export name
+export default NotificationsPage;

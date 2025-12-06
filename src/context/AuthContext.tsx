@@ -1,4 +1,3 @@
-// context/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
 interface User {
@@ -12,7 +11,7 @@ interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (userData: User) => void;
+  login: (userData: User, token?: string) => void;
   logout: () => void;
   updateUser: (userData: Partial<User>) => void;
 }
@@ -27,29 +26,48 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check if user is already logged in (e.g., from localStorage)
+  // Check if user is already logged in on mount
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    const initializeAuth = async () => {
       try {
-        setUser(JSON.parse(storedUser));
+        const storedUser = localStorage.getItem('user');
+        const token = localStorage.getItem('token');
+        
+        if (storedUser && token) {
+          const parsedUser = JSON.parse(storedUser);
+          
+          // Optional: Validate token with backend
+          // const isValid = await validateToken(token);
+          // if (isValid) {
+          setUser(parsedUser);
+          // }
+        }
       } catch (error) {
-        console.error('Error parsing stored user:', error);
+        console.error('Error initializing auth:', error);
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
+      } finally {
+        setIsLoading(false);
       }
-    }
-    setIsLoading(false);
+    };
+
+    initializeAuth();
   }, []);
 
-  const login = (userData: User) => {
+  const login = (userData: User, token?: string) => {
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
+    
+    if (token) {
+      localStorage.setItem('token', token);
+    }
   };
 
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    // Optional: Call backend logout endpoint
   };
 
   const updateUser = (userData: Partial<User>) => {
@@ -62,7 +80,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const value: AuthContextType = {
     user,
-    isAuthenticated: true, // <-- HARDCODED TO TRUE FOR TESTING
+    isAuthenticated: !!user, // FIXED: Now properly based on user existence
     isLoading,
     login,
     logout,
