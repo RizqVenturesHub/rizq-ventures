@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Color native date picker icon with primary color (#39B54A) */
+
+/* Chrome / Edge / Opera */
+.date-input-primary::-webkit-calendar-picker-indicator {
+  color: #39B54A;
+  filter: invert(49%) sepia(64%) saturate(508%) hue-rotate(84deg)
+    brightness(93%) contrast(94%);
+  cursor: pointer;
+}
+
+/* Firefox uses the text color for the icon */
+.date-input-primary {
+  color: #39B54A;
+}

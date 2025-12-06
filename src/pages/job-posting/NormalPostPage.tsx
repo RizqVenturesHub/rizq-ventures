@@ -1,10 +1,12 @@
-// pages/job-posting/NormalPostPage.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { ImageUp } from 'lucide-react';
+import FileUpload from '../../components/FileUpload';
 
 const NormalPostPage: React.FC = () => {
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const [uploadError, setUploadError] = useState('');
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />
@@ -57,17 +59,15 @@ const NormalPostPage: React.FC = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Media Upload
               </label>
-              <div className="flex items-center justify-between border-b border-gray-300 pb-2">
-                <span className="text-xs text-gray-400">
-                  Upload image or video (optional)
-                </span>
-                <button
-                  type="button"
-                  className="w-8 h-8 rounded-full border border-primary-light flex items-center justify-center text-primary hover:bg-primary-light"
-                >
-                  <ImageUp className="w-4 h-4" />
-                </button>
-              </div>
+              <FileUpload
+                file={mediaFile}
+                onFileChange={setMediaFile}
+                acceptedTypes=".jpg,.jpeg,.png,.mp4"
+                maxSizeMB={10}
+                placeholder="Upload image or video (optional)"
+                error={uploadError}
+                onError={setUploadError}
+              />
             </div>
 
             {/* Submit button */}
