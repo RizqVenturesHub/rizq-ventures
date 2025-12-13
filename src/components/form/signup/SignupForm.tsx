@@ -1,17 +1,39 @@
 // components/form/signup/SignupForm.tsx
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { useSignupForm } from "../../../hooks/signup";
 import PasswordInput from "./PasswordInput";
+import { authService } from "../../../services/authService";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function SignupForm() {
   const { formData, handleChange } = useSignupForm();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { login } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log("Signup:", formData);
+
+    try {
+      // Call backend signup
+      const resp = await authService.signup(formData);
+      const { user, token, message } = resp;
+
+      // Save authenticated user
+      login(user, token);
+
+      toast.success(message || "Signup successful!", {
+        duration: 2000,
+        position: "top-center",
+      });
+
+      navigate('/', { replace: true });
+    } catch (err: any) {
+      const msg = err?.response?.data?.message || err?.message || 'Signup failed';
+      toast.error(msg, { duration: 3000, position: 'top-center' });
+    }
   };
 
   return (

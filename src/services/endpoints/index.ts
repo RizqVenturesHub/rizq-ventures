@@ -1,0 +1,13 @@
+export * as authEndpoints from './authEndpoints';
+export * as userEndpoints from './userEndpoints';
+export * as skillEndpoints from './skillEndpoints';
+export * as experienceEndpoints from './experienceEndpoints';
+export * as educationEndpoints from './educationEndpoints';
+export * as postEndpoints from './postEndpoints';
+export * as commentEndpoints from './commentEndpoints';
+export * as notificationEndpoints from './notificationEndpoints';
+export * as jobEndpoints from './jobEndpoints';
+export * as jobApplicationEndpoints from './jobApplicationEndpoints';
+export * as roleEndpoints from './roleEndpoints';
+export * as searchEndpoints from './searchEndpoints';
+export * as mentorEndpoints from './mentorEndpoints';

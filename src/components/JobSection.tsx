@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import JobCard from './JobCard';
 import { Job } from '../data/types';
-import { jobsAPI } from '../services/api';
+import { jobEndpoints } from '../services/endpoints';
 
 const JobSection: React.FC = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -13,7 +13,7 @@ const JobSection: React.FC = () => {
     const fetchJobs = async () => {
       try {
         setLoading(true);
-        const data = await jobsAPI.getJobs();
+        const data = await jobEndpoints.getJobs();
         setJobs(data);
         setError(null);
       } catch (err) {

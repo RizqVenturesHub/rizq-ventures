@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "../../../context/AuthContext";
 import { useLoginForm } from "../../../hooks/login";
 import PasswordInput from "../signup/PasswordInput";
+import { authService } from "../../../services/authService";
 
 export default function LoginForm() {
   const { email, setEmail, password, setPassword } = useLoginForm();
@@ -26,50 +27,25 @@ export default function LoginForm() {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-
     try {
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      const resp = await authService.login({ email, password });
+      const { user, token, message } = resp;
 
-      // Validate credentials
-      if (email === VALID_EMAIL && password === VALID_PASSWORD) {
-        // Successful login
-        const userData = {
-          id: "1",
-          name: "ABC User",
-          email: email,
-          profileImage: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&q=80",
-        };
+      // Save in context (AuthContext will also persist to localStorage)
+      login(user, token);
 
-        // Store user data in context
-        login(userData, "mock-jwt-token-12345");
-
-        // Show success message
-        toast.success("Login successful! Welcome back.", {
-          duration: 2000,
-          position: "top-center",
-          icon: "✅",
-        });
-
-        // Redirect to Jobs page after a short delay
-        setTimeout(() => {
-          navigate(from, { replace: true });  // <-- use from, not "/#jobs"
-        }, 500);
-      } else {
-        // Invalid credentials
-        setError("Invalid email or password. Please try again.");
-        toast.error("Invalid email or password", {
-          duration: 3000,
-          position: "top-center",
-          icon: "❌",
-        });
-      }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
-      toast.error("Something went wrong. Please try again.", {
-        duration: 3000,
+      toast.success(message || "Login successful!", {
+        duration: 2000,
         position: "top-center",
+        icon: "✅",
       });
+
+      // Redirect to original path
+      navigate(from, { replace: true });
+    } catch (err: any) {
+      const msg = err?.response?.data?.message || err?.message || "Login failed";
+      setError(msg);
+      toast.error(msg, { duration: 3000, position: "top-center", icon: "❌" });
     } finally {
       setIsLoading(false);
     }

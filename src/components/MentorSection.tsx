@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import MentorCard from './MentorCard';
 import { Mentor } from '../data/types';
-import { mentorsAPI } from '../services/api';
+import { mentorEndpoints } from '../services/endpoints';
 
 const MentorSection: React.FC = () => {
   const [mentors, setMentors] = useState<Mentor[]>([]);
@@ -13,7 +13,7 @@ const MentorSection: React.FC = () => {
     const fetchMentors = async () => {
       try {
         setLoading(true);
-        const data = await mentorsAPI.getMentors();
+        const data = await mentorEndpoints.getMentors();
         setMentors(data);
         setError(null);
       } catch (err) {
