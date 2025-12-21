@@ -26,33 +26,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check if user is already logged in on mount
+  // ✅ Optimized: Only runs once on mount
   useEffect(() => {
-    const initializeAuth = async () => {
+    const initializeAuth = () => {
       try {
         const storedUser = localStorage.getItem('user');
         const token = localStorage.getItem('token');
         
         if (storedUser && token) {
           const parsedUser = JSON.parse(storedUser);
-          
-          // Optional: Validate token with backend
-          // const isValid = await validateToken(token);
-          // if (isValid) {
           setUser(parsedUser);
-          // }
         }
       } catch (error) {
         console.error('Error initializing auth:', error);
         localStorage.removeItem('user');
         localStorage.removeItem('token');
       } finally {
+        // ✅ Set loading to false synchronously
         setIsLoading(false);
       }
     };
 
     initializeAuth();
-  }, []);
+  }, []); // ✅ Empty dependency array - runs only once
 
   const login = (userData: User, token?: string) => {
     setUser(userData);
@@ -63,11 +59,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-const logout = () => {
-  setUser(null);
-  localStorage.removeItem('user');
-  localStorage.removeItem('token');
-};
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  };
 
   const updateUser = (userData: Partial<User>) => {
     if (user) {
@@ -77,11 +73,9 @@ const logout = () => {
     }
   };
 
-  
-
   const value: AuthContextType = {
     user,
-    isAuthenticated: !!user, // FIXED: Now properly based on user existence
+    isAuthenticated: !!user,
     isLoading,
     login,
     logout,
@@ -91,7 +85,6 @@ const logout = () => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Custom hook to use auth context
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {

@@ -1,5 +1,6 @@
 // components/form/login/LoginForm.tsx
 import React, { useState } from "react";
+import { useMutation } from '@tanstack/react-query';
 import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../context/AuthContext";
@@ -13,42 +14,31 @@ export default function LoginForm() {
   const location = useLocation();
   const { login } = useAuth();
 
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>("");
 
-  // Valid credentials
-  const VALID_EMAIL = "abc@gmail.com";
-  const VALID_PASSWORD = "123456";
 
   // Get the redirect path from location state, default to Jobs page
   const from = (location.state as any)?.from?.pathname || "/";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsLoading(true);
-    try {
-      const resp = await authService.login({ email, password });
+  const mutation = useMutation((creds: { email: string; password: string }) => authService.login(creds), {
+    onSuccess: (resp) => {
       const { user, token, message } = resp;
-
-      // Save in context (AuthContext will also persist to localStorage)
       login(user, token);
-
-      toast.success(message || "Login successful!", {
-        duration: 2000,
-        position: "top-center",
-        icon: "✅",
-      });
-
-      // Redirect to original path
+      toast.success(message || "Login successful!", { duration: 2000, position: 'top-center', icon: '✅' });
       navigate(from, { replace: true });
-    } catch (err: any) {
+    },
+    onError: (err: any) => {
       const msg = err?.response?.data?.message || err?.message || "Login failed";
       setError(msg);
-      toast.error(msg, { duration: 3000, position: "top-center", icon: "❌" });
-    } finally {
-      setIsLoading(false);
+      toast.error(msg, { duration: 3000, position: 'top-center', icon: '❌' });
     }
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    if (mutation.isLoading) return; // prevent duplicate submits
+    mutation.mutate({ email, password });
   };
 
   return (
@@ -78,7 +68,7 @@ export default function LoginForm() {
               : "border-gray-300 focus:ring-primary focus:border-transparent"
             }`}
           required
-          disabled={isLoading}
+          disabled={mutation.isLoading}
         />
       </div>
 
@@ -91,7 +81,7 @@ export default function LoginForm() {
             setPassword(e.target.value);
             setError(""); // Clear error on input change
           }}
-          disabled={isLoading}
+          disabled={mutation.isLoading}
           error={!!error}
         />
       </div>
@@ -99,13 +89,13 @@ export default function LoginForm() {
       {/* Login Button */}
       <button
         type="submit"
-        disabled={isLoading}
-        className={`w-full py-3 rounded-full font-semibold transition-all shadow-md hover:shadow-lg ${isLoading
+        disabled={mutation.isLoading}
+        className={`w-full py-3 rounded-full font-semibold transition-all shadow-md hover:shadow-lg ${mutation.isLoading
             ? "bg-gray-400 cursor-not-allowed"
             : "bg-primary text-white hover:bg-primary-dark"
           }`}
       >
-        {isLoading ? (
+        {mutation.isLoading ? (
           <span className="flex items-center justify-center">
             <svg
               className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -154,7 +144,7 @@ export default function LoginForm() {
             type="button"
             onClick={() => navigate("/signup")}
             className="text-primary font-semibold hover:text-primary-dark transition-colors underline"
-            disabled={isLoading}
+            disabled={mutation.isLoading}
           >
             Sign up
           </button>

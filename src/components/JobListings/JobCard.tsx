@@ -1,6 +1,8 @@
 // components/JobListings/JobCard.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { MapPin, Briefcase, Clock } from 'lucide-react';
+import { jobApplicationEndpoints } from '../../services/endpoints';
+import toast from 'react-hot-toast';
 
 interface Job {
   id: string;
@@ -18,6 +20,7 @@ interface JobCardProps {
 }
 
 const JobCard: React.FC<JobCardProps> = ({ job }) => {
+  const [applying, setApplying] = useState(false);
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="flex flex-col sm:flex-row">
@@ -56,8 +59,22 @@ const JobCard: React.FC<JobCardProps> = ({ job }) => {
           </div>
 
           <div className="mt-4 flex gap-3">
-            <button className="px-6 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors">
-              Apply Now
+            <button
+              onClick={async () => {
+                try {
+                  setApplying(true);
+                  await jobApplicationEndpoints.applyToJob(job.id, {});
+                  toast.success('Applied successfully');
+                } catch (e: any) {
+                  toast.error(e?.response?.data?.message || 'Failed to apply');
+                } finally {
+                  setApplying(false);
+                }
+              }}
+              disabled={applying}
+              className={`px-6 py-2 rounded-lg font-medium transition-colors ${applying ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark'}`}
+            >
+              {applying ? 'Applying...' : 'Apply Now'}
             </button>
             <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors">
               Save

@@ -1,33 +1,26 @@
-// components/JobSection.tsx - Complete component
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import JobCard from './JobCard';
 import { Job } from '../data/types';
 import { jobEndpoints } from '../services/endpoints';
 
 const JobSection: React.FC = () => {
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  // ✅ Fixed: Proper query configuration
+  const { data, isLoading, isError, error, refetch } = useQuery({
+    queryKey: ['jobs'], // Simplified key
+    queryFn: async () => {
+      const resp = await jobEndpoints.getJobs();
+      return Array.isArray(resp) ? resp : resp?.items || [];
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    retry: 1, // Only retry once on failure
+    refetchOnWindowFocus: false, // Don't refetch on tab focus
+    refetchOnMount: false, // Don't refetch if data exists
+  });
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        setLoading(true);
-        const data = await jobEndpoints.getJobs();
-        setJobs(data);
-        setError(null);
-      } catch (err) {
-        setError('Failed to load jobs. Please try again later.');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const jobs: Job[] = data || [];
 
-    fetchJobs();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <section className="py-20 px-4 bg-gray-50" id="jobs">
         <div className="max-w-7xl mx-auto text-center">
@@ -40,13 +33,16 @@ const JobSection: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (isError) {
     return (
       <section className="py-20 px-4 bg-gray-50" id="jobs">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-red-600">{error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
+          <p className="text-red-600">
+            {(error as any)?.message || 'Failed to load jobs.'}
+          </p>
+          {/* ✅ Use refetch instead of window.location.reload() */}
+          <button
+            onClick={() => refetch()}
             className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
           >
             Retry

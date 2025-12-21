@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import postEndpoints from "../services/endpoints/postEndpoints";
 
 const PAGE_SIZE = 10;
 const TOTAL_POSTS = 87;
@@ -138,18 +139,28 @@ export default function PostsPage() {
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   useEffect(() => {
-    setLoading(true);
-    setError("");
-    mockFetchPosts({ page, limit: PAGE_SIZE, query })
-      .then(({ items, total }) => {
+    let mounted = true;
+    const fetchPosts = async () => {
+      setLoading(true);
+      setError('');
+      try {
+        const resp: any = await postEndpoints.getPosts({ page, limit: PAGE_SIZE, query });
+        // backend may return { items, total } or array
+        const items = resp?.items ?? resp ?? [];
+        const totalCount = resp?.total ?? (Array.isArray(resp) ? resp.length : items.length);
+        if (!mounted) return;
         setPosts(items);
-        setTotal(total);
-        setLoading(false);
-      })
-      .catch((e: Error) => {
-        setError(e.message || "Failed to load posts");
-        setLoading(false);
-      });
+        setTotal(totalCount);
+      } catch (e: any) {
+        if (!mounted) return;
+        setError(e?.message || e?.response?.data?.message || 'Failed to load posts');
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    fetchPosts();
+    return () => { mounted = false };
   }, [page, query]);
 
   const prev = () => setPage((p) => Math.max(1, p - 1));
@@ -192,7 +203,13 @@ export default function PostsPage() {
         {!loading && !error && (
           <section className="mt-4">
             {posts.map((p) => (
-              <PostCard key={p.id} role={p.role} name={p.name} text={p.text} tone={p.tone} />
+              <PostCard
+                key={p.id}
+                role={p.title ?? p.role}
+                name={p.author?.name ?? p.name ?? p.authorName}
+                text={p.content ?? p.text}
+                tone={p.tone ?? 'peach'}
+              />
             ))}
           </section>
         )}

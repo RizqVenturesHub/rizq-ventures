@@ -15,6 +15,8 @@ import NotificationsPage from '../pages/NotificationsPage';
 import JobListingsPage from '../pages/JobListingsPage';
 import NormalPostPage from '../pages/job-posting/NormalPostPage';
 import JobPostPage from '../pages/job-posting/JobPostPage';
+import JobDetailPage from '../pages/JobDetailPage';
+import JobApplicationsPage from '../pages/JobApplicationsPage';
 
 
 const AppRoutes: React.FC = () => {
@@ -89,6 +91,8 @@ const AppRoutes: React.FC = () => {
           </ProtectedRoute>
         }
       />
+      <Route path="/jobs/:id" element={<JobDetailPage/>} />
+      <Route path="/jobs/:id/applications" element={<ProtectedRoute><JobApplicationsPage/></ProtectedRoute>} />
       {/* Catch all - redirect to home */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

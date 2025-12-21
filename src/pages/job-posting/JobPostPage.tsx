@@ -2,6 +2,9 @@ import React, { useState, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
 import FileUpload from '../../components/FileUpload';
 import Header from '../../components/Header';
+import { jobEndpoints } from '../../services/endpoints';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 // Mock components - replace with your actual components
 
@@ -68,16 +71,52 @@ const JobPostPage: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const navigate = useNavigate();
+
   // Handle form submission
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!formData.jobTitle.trim()) {
-      alert('Please enter a job title');
+      toast.error('Please enter a job title');
       return;
     }
 
-    console.log('Form submitted:', formData);
+    try {
+      const payload: any = {
+        title: formData.jobTitle,
+        description: formData.description,
+        location: formData.location,
+        salaryMin: formData.salaryMin,
+        salaryMax: formData.salaryMax,
+        currency: formData.currency,
+        skills: formData.skills ? formData.skills.split(',').map(s => s.trim()) : [],
+        education: formData.education,
+        experience: formData.experience,
+        jobType: formData.jobType,
+        deadline: formData.deadline || undefined,
+      };
+
+      // If JD file provided, send as multipart/form-data
+      let resp;
+      if (formData.jdFile) {
+        const fd = new FormData();
+        Object.keys(payload).forEach((k) => {
+          const v = (payload as any)[k];
+          if (v !== undefined) fd.append(k, typeof v === 'object' ? JSON.stringify(v) : v);
+        });
+        fd.append('jdFile', formData.jdFile);
+        resp = await jobEndpoints.createJob(fd as any);
+      } else {
+        resp = await jobEndpoints.createJob(payload);
+      }
+
+      toast.success('Job posted successfully');
+      // Redirect to job listings
+      navigate('/job-listings');
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to create job');
+    }
   };
 
   return (

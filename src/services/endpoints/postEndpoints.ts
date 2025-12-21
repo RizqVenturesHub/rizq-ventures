@@ -45,6 +45,11 @@ export const getFeed = async () => {
   return resp.data;
 };
 
+export const getPosts = async (params?: any) => {
+  const resp = await api.get('/api/posts', { params });
+  return resp.data;
+};
+
 export default {
   getPost,
   updatePost,
@@ -55,4 +60,5 @@ export default {
   isPostLiked,
   getPostsByUser,
   getFeed,
+  getPosts,
 };

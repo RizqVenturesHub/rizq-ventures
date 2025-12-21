@@ -1,66 +1,50 @@
 // components/JobListings/JobList.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
-import { JobFiltersState } from '../../types/jobFilters'; // CHANGED
+import { JobFiltersState } from '../../types/jobFilters';
 import JobCard from './JobCard';
+import { jobEndpoints } from '../../services/endpoints';
 
 interface JobListProps {
   filters: JobFiltersState;
 }
 
-// Mock data - replace with API call
-const mockJobs = [
-  {
-    id: '1',
-    title: 'Software Engineer',
-    company: 'Tech Innovators Inc. - Karachi, Sindh, Pakistan',
-    location: 'Karachi, Sindh, Pakistan',
-    postedDate: '2 days ago',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80',
-    type: 'Full Time',
-    experience: 'Entry Level',
-  },
-  {
-    id: '2',
-    title: 'Marketing Manager',
-    company: 'Global Marketing Solutions - Lahore, Punjab, Pakistan',
-    location: 'Lahore, Punjab, Pakistan',
-    postedDate: '1 week ago',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&q=80',
-    type: 'Full Time',
-    experience: 'Mid Level',
-  },
-  {
-    id: '3',
-    title: 'Financial Analyst',
-    company: 'Finance First Group - Islamabad, Islamabad Capital Territory, Pakistan',
-    location: 'Islamabad, Pakistan',
-    postedDate: '3 weeks ago',
-    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=400&q=80',
-    type: 'Contract',
-    experience: 'Senior Level',
-  },
-  {
-    id: '4',
-    title: 'Human Resources Specialist',
-    company: 'People Power HR - Karachi, Sindh, Pakistan',
-    location: 'Karachi, Sindh, Pakistan',
-    postedDate: '1 month ago',
-    image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&q=80',
-    type: 'Part Time',
-    experience: 'Entry Level',
-  },
-];
-
 const JobList: React.FC<JobListProps> = ({ filters }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState<'recent' | 'companies'>('recent');
+  const [error, setError] = useState<string>('');
   const totalPages = 5;
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+    const [jobs, setJobs] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+  
+    useEffect(() => {
+      const fetch = async () => {
+        setLoading(true);
+        setError('');
+        try {
+          const params = {
+            page: currentPage,
+            limit: 10,
+            ...filters,
+          };
+          const data = await jobEndpoints.getJobs(params as any);
+          const items = data?.items || data || [];
+          setJobs(items);
+        } catch (e: any) {
+          setError(e?.message || 'Failed to load jobs');
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetch();
+    }, [filters, currentPage]);
 
   return (
     <div className="space-y-6">
@@ -106,9 +90,13 @@ const JobList: React.FC<JobListProps> = ({ filters }) => {
 
       {/* Job Cards */}
       <div className="space-y-4">
-        {mockJobs.map((job) => (
-          <JobCard key={job.id} job={job} />
-        ))}
+        {loading && !error ? (
+            <div className="py-12 text-center text-gray-500">Loading jobs...</div>
+          ) : error ? (
+            <div className="py-12 text-center text-red-600">{error}</div>
+          ) : (
+            jobs.map((job) => <JobCard key={job.id} job={job} />)
+          )}
       </div>
 
       {/* Pagination */}
