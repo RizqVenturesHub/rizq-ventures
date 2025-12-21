@@ -134,12 +134,7 @@ export default function LoginForm() {
         )}
       </button>
 
-      {/* Demo Credentials Info */}
-      <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg text-xs">
-        <p className="font-semibold mb-1">Demo Credentials:</p>
-        <p>Email: abc@gmail.com</p>
-        <p>Password: 123456</p>
-      </div>
+
 
       {/* Forgot Password */}
       <div className="text-center">
@@ -152,7 +147,7 @@ export default function LoginForm() {
       </div>
 
       {/* Sign Up Link */}
-      <div className="text-center pt-4">
+      <div className="text-center ">
         <p className="text-sm text-gray-600">
           Don't have an account?{" "}
           <button
